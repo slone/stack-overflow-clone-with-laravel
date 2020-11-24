@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Question;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionFactory extends Factory
 {
@@ -28,6 +29,7 @@ class QuestionFactory extends Factory
             'views'     => rand(0, 10),
             'answers'   => rand(0,10),
             'votes'     => rand(-3, 10),
+            'user_id'   => User::pluck('id')->random(),
         ];
     }
 }
