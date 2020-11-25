@@ -6,3 +6,44 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+}
+.counters {
+    margin-right: 2rem;
+    font-size: .8125em;
+    text-align: center;
+
+    strong {
+        display: block;
+        font-size: 1.8em;
+    }
+
+    .vote, .answer {
+        margin-bottom: 1em
+    }
+
+    .status {
+        padding: .25em 1em;
+
+        &.unanswered { 
+            border: none;
+        }
+
+        &.answered {
+            border: 1px solid $answeredGreen;
+            color: $answeredGreen;
+        }
+
+        &.answered-accepted {
+            background: $answeredGreen;
+            color: $white;
+        }
+    }
+
+    .view {
+        margin-top: .75em;
+    }
+}
