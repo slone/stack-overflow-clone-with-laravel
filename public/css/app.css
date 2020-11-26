@@ -10903,11 +10903,6 @@ a.text-dark:focus {
   }
 }
 
-.navbar-laravel {
-  background-color: #FFFFFF;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
 .counters {
   margin-right: 2rem;
   font-size: 0.8125em;
@@ -10944,5 +10939,9 @@ a.text-dark:focus {
 
 .counters .view {
   margin-top: 0.75em;
+}
+
+form.form-delete {
+  display: inline;
 }
 

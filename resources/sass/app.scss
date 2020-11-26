@@ -7,10 +7,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-	background-color: #FFFFFF;
-	box-shadow: 0 2px 4px rgba(0,0,0,.04);
-}
+
 .counters {
 	margin-right: 2rem;
 	font-size: .8125em;
@@ -46,4 +43,8 @@
 	.view {
 		margin-top: .75em;
 	}
+}
+
+form.form-delete {
+	display: inline;
 }
