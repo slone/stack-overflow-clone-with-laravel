@@ -33,6 +33,7 @@
 						<div class="media-body">
 							<div class="d-flex align-items-center">
 								<h3 class="mt-0"><a href="{{ $question->url }}">{{ $question->title }}</a></h3>
+								@if (Auth::user()->can('modify-question', $question))
 								<div class="ml-auto">
 									<a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">{{ __('Edit') }}</a>
 									<form method="post" action="{{ route('questions.destroy', $question->id) }}" class="form-delete">
@@ -41,6 +42,7 @@
 										<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you wish to delete this question?')">{{ __('Delete') }}</button>
 									</form>
 								</div>
+								@endif
 							</div>
 							<p class="lead">
 								Asked by <a href="{{$question->user->url}}">{{ $question->user->name }}</a>

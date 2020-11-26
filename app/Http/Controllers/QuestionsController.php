@@ -6,6 +6,7 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Requests\AskQuestionRequest;
 
+
 class QuestionsController extends Controller
 {
 
@@ -73,6 +74,9 @@ class QuestionsController extends Controller
 	 */
 	public function edit(Question $question)
 	{
+		if (\Gate::denies('modify-question', $question)) {
+			abort(403, __('You can\'t modify this question'));
+		}
 		return view('questions.edit')->with('question', $question);
 	}
 
