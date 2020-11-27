@@ -10,6 +10,7 @@ class Answer extends Model
 {
 	use HasFactory;
 
+	protected $fillable = ['body', 'user_id'];
 	/**
 	 * Relation to Question model
 	 * 
