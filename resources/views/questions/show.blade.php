@@ -18,18 +18,18 @@
 					<hr>
 
 					<div class="media">
-						<div class="d-flex flex-column">
+						<div class="d-flex flex-column vote-controls">
 							<a title="this question is useful" class="vote-up">
-								Vote up
+								<i class="fas fa-caret-up fa-2x"></i>
 							</a>
 							<span class="votes-count">
 								1224
 							</span>
 							<a title="this question is not useful" class="vote-down off">
-								Vote down
+								<i class="fas fa-caret-down fa-2x"></i>
 							</a>
-							<a title="Click to favorite the question - click again to undo" class="favorite">
-								favorite it
+							<a title="Click to favorite the question - click again to undo" class="favorite mt-2 favorited">
+								<i class="fas fa-star"></i>
 							</a>
 							<span class="favorites-count">
 								54
@@ -65,7 +65,24 @@
 					@foreach ($question->answers as $answer) 
 
 						<div class="media">
-							<div class="media-body">
+								<div class="d-flex flex-column vote-controls">
+									<a title="this answer is useful" class="vote-up">
+										<i class="fas fa-caret-up fa-2x"></i>
+									</a>
+									<span class="votes-count">
+										1224
+									</span>
+									<a title="this answer is not useful" class="vote-down off">
+										<i class="fas fa-caret-down fa-2x"></i>
+									</a>
+									<a title="Mark as best answer" class="vote-accepted mt-2">
+										<i class="fas fa-check fa-2x"></i>
+									</a>
+									<span class="favorites-count">
+										54
+									</span>
+								</div>
+								<div class="media-body">
 								{!! $answer->body_html !!}
 								<div class="float-right">
 									<span class="text-muted">Answered {{ $answer->created_at }}</span>

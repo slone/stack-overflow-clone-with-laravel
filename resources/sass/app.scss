@@ -7,6 +7,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// font awesome
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
 .counters {
 	margin-right: 2rem;
@@ -48,3 +51,5 @@
 form.form-delete {
 	display: inline;
 }
+
+@import '_modules/vote-controls';
