@@ -46,4 +46,9 @@ class Question extends Model
 		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);
 		return $markdown->convertToHtml($this->body);
 	}
+
+	public function acceptBestAnswer($answer) {
+		$this->best_answer_id = $answer->id;
+		$this->save();
+	}
 }
