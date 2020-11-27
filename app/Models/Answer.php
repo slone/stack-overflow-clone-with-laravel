@@ -8,31 +8,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Answer extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    /**
-     * Relation to Question model
-     * 
-     * @return
-     */
-    public function question() {
-        return $this->belongsTo(Question::class);
-    }
+	/**
+	 * Relation to Question model
+	 * 
+	 * @return
+	 */
+	public function question() {
+		return $this->belongsTo(Question::class);
+	}
 
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
+	public function user() {
+		return $this->belongsTo(User::class);
+	}
 
-    public function getBodyHtmlAttribute() {
+	public function getBodyHtmlAttribute() {
 		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);
 		return $markdown->convertToHtml($this->body);
-    }
+	}
+	
+	public function getCreatedDateAttribute() {
+		return $this->created_at->diffForHumans();
+	}
 
-    public static function boot() {
-        parent::boot();
-        static::created(function($answer) {
-            $answer->question->increment('answers_count');
-            $answer->question->save();
-        });
-    }
+	public static function boot() {
+		parent::boot();
+		static::created(function($answer) {
+			$answer->question->increment('answers_count');
+			$answer->question->save();
+		});
+	}
 }
