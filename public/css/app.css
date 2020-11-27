@@ -17047,10 +17047,6 @@ readers do not read off random characters that represent icons */
   margin-top: 0.75em;
 }
 
-form.form-delete {
-  display: inline;
-}
-
 .vote-controls {
   min-width: 4em;
   margin-right: 2em;
@@ -17089,5 +17085,9 @@ form.form-delete {
 
 .vote-controls a.vote-accepted {
   color: #38c172;
+}
+
+form.form-delete {
+  display: inline;
 }
 
