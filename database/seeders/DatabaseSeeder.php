@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(5)->create()->each(function($user) { 
             $user->questions()
             ->saveMany( 
-                Question::factory()->count(rand(0,7))->make()
+                Question::factory()->count(rand(5,12))->make()
             )
             ->each(function($question) {
                 $question->answers()->saveMany(
