@@ -21,6 +21,46 @@ class Question extends Model
 		return $this->hasMany(Answer::class);
 	}
 
+	/**
+	 * set up the many-to-many relationship 
+	 * between a question and the user who picked it as favorite
+	 * 
+	 * @return mixed
+	 */
+	public function favorites() {
+		return $this->belongsToMany(User::class, 'favorites')->withTimestamps(); // you can also add 2 more parameters to specify key names if convention is not followed
+		// can be used like this
+		// $question->favorites()->attach($user->id);
+		// or by passing a User::class instance as parameter
+		// $question->favorites->attach($userInstance);
+		// or by passing a collection of IDs
+		// $question->favorites->attach([$user1->id, $user2->id, $user3->id]);
+		//
+		// the property favorites can be read but is not automatically refreshed
+		// $question->favorites // returns a collection of User::class instances
+		//
+		// to refresh and get the up-to-date version of the list
+		// $question->load('favorites'); // returns a collection of User::class instances
+		//
+		// query example to know if a user as favorited an specific question: 
+		// $question->favorites->where('user_id', $user->id)->count() > 0
+
+	}
+
+	public function isFavorited() {
+		return $this->favorites()->where('user_id', auth()->id())->count() > 0;
+		// $this->favorites() returns a query
+		// $this->favorites returns a collection
+	}
+
+	public function getIsFavoritedAttribute() {
+		return $this->isFavorited();
+	}
+
+	public function getFavoritesCountAttribute() {
+		return $this->favorites->count();
+	}
+
 	public function setTitleAttribute($value) {
 		$this->attributes['title']  = $value;
 		$this->attributes['slug']   = Str::slug($value);
