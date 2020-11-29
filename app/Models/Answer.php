@@ -14,15 +14,31 @@ class Answer extends Model
 	/**
 	 * Relation to Question model
 	 * 
-	 * @return
+	 * @return mixed
 	 */
 	public function question() {
 		return $this->belongsTo(Question::class);
 	}
 
+	/**
+	 * Relation to User model
+	 * 
+	 * @return mixed
+	 */
 	public function user() {
 		return $this->belongsTo(User::class);
 	}
+
+	/**
+	 * Relation to User votes
+	 * 
+	 * @return mixed
+	 */
+	public function votes() {
+		return $this->morphToMany(User::class, 'votable'); // (related model, singular form of table name)
+	}
+
+
 
 	public function getBodyHtmlAttribute() {
 		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);

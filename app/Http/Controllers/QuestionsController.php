@@ -27,7 +27,6 @@ class QuestionsController extends Controller
 		// \DB::enableQueryLog();
 		$questions = Question::with('user')->latest()->paginate(10);
 		return view('questions.index', compact('questions'));
-
 		// dd(\DB::getQueryLog());
 	}
 
@@ -39,7 +38,6 @@ class QuestionsController extends Controller
 	public function create()
 	{
 		$question = new Question();
-
 		return view('questions.create')->with('question', $question);
 	}
 
@@ -88,7 +86,7 @@ class QuestionsController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  App\Http\Requests\AskQuestionReques  $request
+	 * @param  App\Http\Requests\AskQuestionRequest  $request
 	 * @param  \App\Models\Question  $question
 	 * @return \Illuminate\Http\Response
 	 */

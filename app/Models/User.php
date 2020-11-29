@@ -74,6 +74,75 @@ class User extends Authenticatable
 
 	}
 
+	/**
+	 * setting many-to-many polymorphic relation between Users and Questions
+	 * 
+	 * @return mixed
+	 */
+	public function voteQuestions() {
+		return $this->morphedByMany(Question::class, 'votable')->withTimestamps(); // (related model, singular form of table name)
+
+		// can be used like this: 
+		// $userInstance->voteQuestions()->attach($questionInstance, ['vote' => 1]); // to create record in pivot table
+		// $userInstance->voteQuestions()->where('votable_id', $questionInstance->id)->exists(); to check if user has cast a vote for that question
+		// $userInstance->voteQuestions()->updateExistingPivote($questionInstance, ['vote' => -1]) // to modify record in pivot table
+	}
+	/**
+	 * setting many-to-many polymorphic relation between Users and Answers
+	 * 
+	 * @return mixed
+	 */
+	public function voteAnswers() {
+		return $this->morphedByMany(Answer::class, 'votable'); // (related model, singular form of table name)
+
+		// can be used like this: 
+		// $userInstance->voteAnswers()->attach($answerInstance, ['vote' => 1]); // to create record in pivot table
+		// $userInstance->voteAnswers()->where('votable_id', $answerInstance->id)->exists(); // to check if user has cast a vote for that question
+		// $userInstance->voteAnswers()->udpateExistingPivot($answerInstance, ['vote' => -1]); // to modify record in pivot table
+	}
+
+
+	/**
+	 * User cast a vote for an answer
+	 * 
+	 * @return void
+	 */
+	public function voteAnswer(Answer $answer, $vote) {
+		$answer->load('votes');
+		$voteAnswers = $this->voteAnswers();
+		if ($voteAnswers->where('votable_id', $answer->id)->exists()) {
+			$voteAnswers->updateExistingPivot($answer, ['vote' => $vote]);
+		} else {
+			$voteAnswers->attach($answer, ['vote' => $vote]);
+		}
+		$answer->load('votes');
+		$downvotes 	= (int) $answer->downVotes()->sum('vote');
+		$upvotes 	= (int) $answer->upVotes()->sum('vote');
+		$answer->votes_count = $upvotes + $downvotes;
+		$answer->save();
+	}
+
+	/**
+	 * User cast a vote for a question
+	 * 
+	 * @return void
+	 */
+	public function voteQuestion(Question $question, $vote) {
+		$question->load('votes');
+		$voteQuestions = $this->voteQuestions();
+		if ($voteQuestions->where('votable_id', $question->id)->exists()) {
+			$voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
+		} else {
+			$voteQuestions->attach($question, ['vote' => $vote]);
+		}
+		$question->load('votes');
+		$downvotes 	= (int) $question->downVotes()->sum('vote');
+		$upvotes 	= (int) $question->upVotes()->sum('vote');
+		$question->votes_count = $upvotes + $downvotes;
+		$question->save();
+	}
+
+
 
 	public function getUrlAttribute() {
 		// return route("questions.show", $this->id);

@@ -35,3 +35,5 @@ Route::delete('/questions/{question}/favorites', [App\Http\Controllers\Favorites
 
 // One action route => this controller has an __invoke method
 Route::post('/answers/{answer}/accept', App\Http\Controllers\AcceptAnswerController::class)->name('answers.accept');
+
+Route::post('/questions/{question}/vote', App\Http\Controllers\VoteQuestionController::class);
