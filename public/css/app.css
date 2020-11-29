@@ -17091,3 +17091,7 @@ form.form-delete {
   display: inline;
 }
 
+.answer-infos {
+  align-items: flex-end;
+}
+
