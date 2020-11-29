@@ -22,6 +22,14 @@ class User extends Authenticatable
 		'password',
 	];
 
+
+	/**
+	 * dynamic attributes to be included when instancing the model
+	 */
+	protected $appends = [
+		'url', 'avatar'
+	];
+
 	/**
 	 * The attributes that should be hidden for arrays.
 	 *

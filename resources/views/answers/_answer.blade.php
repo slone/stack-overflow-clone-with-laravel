@@ -29,10 +29,7 @@
 			<div class="col-3"></div>
 			<div class="col-5">
 
-				@include('shared._author', [
-					'model' => $answer,
-					'label' => 'answered'
-				])
+				<user-info :model="{{ $answer }}" label="{{ __('answered') }}"></user-info>
 				
 			</div>
 		</footer>
