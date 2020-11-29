@@ -64,11 +64,14 @@ class Question extends Model
 
 
 
-
 	public function setTitleAttribute($value) {
 		$this->attributes['title']  = $value;
 		$this->attributes['slug']   = Str::slug($value);
 	}
+
+	// public function setBodyAttribute($value) {
+	// 	$this->attributes['body'] 	= clean($value);
+	// }
 
 	public function getUrlAttribute() {
 		return route("questions.show", $this->slug);
@@ -87,12 +90,24 @@ class Question extends Model
 	}
 
 	public function getBodyHtmlAttribute() {
-		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);
-		return $markdown->convertToHtml($this->body);
+		return clean($this->bodyHtml());
 	}
 
 	public function acceptBestAnswer($answer) {
 		$this->best_answer_id = $answer->id;
 		$this->save();
+	}
+
+	public function getExcerptAttribute() {
+		return $this->excerpt(350);
+	}
+
+	public function excerpt($length = 100) {
+		return Str::limit(strip_tags($this->bodyHtml()), $length);		
+	}
+
+	private function bodyHtml() {
+		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);
+		return $markdown->convertToHtml($this->body);
 	}
 }
