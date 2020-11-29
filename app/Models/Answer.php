@@ -68,4 +68,23 @@ class Answer extends Model
 	public function getIsBestAttribute() {
 		return $this->id === $this->question->best_answer_id;
 	}
+
+	/**
+	 * return collection of positive votes
+	 * 
+	 * @return Array
+	 */
+	public function upVotes() {
+		return $this->votes()->wherePivot('vote', 1);
+	}
+
+	/**
+	 * return collection of negative votes
+	 * 
+	 * @return Array
+	 */
+	public function downVotes() {
+		return $this->votes()->wherePivot('vote', -1);
+	}
+
 }
