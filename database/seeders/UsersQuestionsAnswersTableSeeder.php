@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 
 class UsersQuestionsAnswersTableSeeder extends Seeder

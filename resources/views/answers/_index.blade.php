@@ -1,3 +1,4 @@
+@if ($answersCount > 0) 
 <div class="row mt-4 justify-content-center answers-wrapper">
 	<div class="col-md-8">
 		<div class="card">
@@ -61,3 +62,4 @@
 		</div>
 	</div>
 </div>
+@endif

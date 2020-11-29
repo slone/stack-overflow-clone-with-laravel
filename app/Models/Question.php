@@ -18,8 +18,12 @@ class Question extends Model
 		return $this->belongsTo(User::class);
 	}
 
+	/**
+	 * define relationship between a question and its answers
+	 * 
+	 */
 	public function answers() {
-		return $this->hasMany(Answer::class);
+		return $this->hasMany(Answer::class)->orderBy('votes_count', 'DESC');
 	}
 
 	/**
