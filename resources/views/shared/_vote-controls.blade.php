@@ -37,8 +37,6 @@
 	<favorite-button :question="{{ $model }}"></favorite-button>
 
 	@elseif ($is_answer)
-		@include('shared._accept-control', [
-			'model' => $model
-		])
+	<accept-button :answer="{{ $model }}"></accept-button>
 	@endif
 </div>

@@ -13,7 +13,7 @@ class Answer extends Model
 	use HasFactory;
 
 	protected $fillable = ['body', 'user_id'];
-	protected $appends = ['body_html','created_date'];
+	protected $appends = ['body_html', 'is_best', 'created_date'];
 
 	/**
 	 * Relation to Question model
