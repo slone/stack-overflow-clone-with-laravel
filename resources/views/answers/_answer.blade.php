@@ -1,10 +1,8 @@
 <answer :answer="{{ $answer }}" inline-template>
 	<div class="media post answer-wrapper">
 		<div class="row">
-	
-			@include('shared._vote-controls', [
-				'model' => $answer,
-			])
+
+			<vote-buttons :model="{{ $answer }}" name="answer"></vote-buttons>
 	
 			<div class="media-body">
 				<form v-if="editing" class="answer-form-size-quick-fix" @submit.prevent="update">

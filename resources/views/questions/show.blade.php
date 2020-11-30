@@ -18,9 +18,8 @@
 					<hr>
 
 					<div class="media">
-						@include('shared._vote-controls', [
-							'model' => $question,
-						])
+						<vote-buttons :model="{{ $question }}" name="question"></vote-buttons>
+
 						<div class="media-body">
 							{!! $question->body_html !!}
 							<div class="row">

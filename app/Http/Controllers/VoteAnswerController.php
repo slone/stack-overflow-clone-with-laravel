@@ -1,20 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Answer;
 use Illuminate\Http\Request;
 
 class VoteAnswerController extends Controller
 {
-    public function __construct() {
-        $this->middleware('auth');
-    }
+	public function __construct() {
+		$this->middleware('auth');
+	}
 
-    public function __invoke(Answer $answer) {
-        $vote = (int) request()->vote;
+	public function __invoke(Answer $answer) {
+		$vote = (int) request()->vote;
 
-        auth()->user()->voteAnswer($answer, $vote);
+		$votesCount = auth()->user()->voteAnswer($answer, $vote);
 
-        return back();
-    }
+		if (request()->expectsJson()) {
+			return response()->json([
+				'message' => 'Thanks for the vote',
+				'votesCount' => $votesCount,
+				'voted' => $vote,
+				'qId' => $answer->id,
+			]);
+		}
+
+		return back();
+	}
 }

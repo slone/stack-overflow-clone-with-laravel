@@ -7,7 +7,7 @@
 
 <script>
 export default {
-	props: ['question'],
+	props: ["question"],
 	data() {
 		return {
 			isFavorited: this.question.is_favorited,
@@ -18,8 +18,8 @@ export default {
 	computed: {
 		classes() {
 			return [
-				'favorite', 'mt-2', 
-				! this.signedIn ? 'off' : (this.isFavorited ? 'favorited' : '')
+				"favorite", "mt-2", 
+				! this.signedIn ? "off" : (this.isFavorited ? "favorited" : "")
 			];
 		},
 		endpoint() {
@@ -29,7 +29,9 @@ export default {
 	methods: {
 		toggleFavorite() {
 			if (! this.signedIn) 
-			 	this.$toast.warning('You need to be logged in to be able to add a question to your favorite', "Warning", { timeout: 3000, position: 'bottomLeft' })
+			 	this.$toast.warning("You need to be logged in to be able to add a question to your favorite", "Warning", { 
+					 timeout: 3000, position: "bottomLeft" 
+				});
 			else 
 				this.isFavorited ? this.destroyFavorite() : this.createFavorite();
 		},
@@ -38,10 +40,10 @@ export default {
 			.then(res => {
 				this.count--;
 				this.isFavorited = false;
-				this.$toast.success("Question is no longer a favorite.", 'Success', { timeout: 3000 });
+				this.$toast.success("Question is no longer a favorite.", "Success", { timeout: 3000 });
 			})
 			.catch(err => {
-				this.$toast.error(err.response.data.message, 'Error', { timeout: 3000 });
+				this.$toast.error(err.response.data.message, "Error", { timeout: 3000 });
 			})
 		},
 		createFavorite() {
@@ -49,10 +51,10 @@ export default {
 			.then(res => {
 				this.count++;
 				this.isFavorited = true;
-				this.$toast.success("Question has been added to your favorite.", 'Success', { timeout: 3000 });
+				this.$toast.success("Question has been added to your favorite.", "Success", { timeout: 3000 });
 			})
 			.catch(err => {
-				this.$toast.error(err.response.data.message, 'Error', { timeout: 3000 });
+				this.$toast.error(err.response.data.message, "Error", { timeout: 3000 });
 			})
 		}
 	}
