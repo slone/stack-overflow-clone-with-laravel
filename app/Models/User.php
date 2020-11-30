@@ -64,7 +64,7 @@ class User extends Authenticatable
 	 * @return mixed
 	 */
 	public function favorites() {
-		return $this->belongsToMany(Question::class, 'favorites')->withTimestamps; // table name must be specified obviously
+		return $this->belongsToMany(Question::class, 'favorites')->withTimestamps(); // table name must be specified obviously
 		// return $this->belongsToMany(Question::class, 'favorites', 'user_id', 'question_id'); // full set of possible parameters
 		// 
 		// can be used like this: 
