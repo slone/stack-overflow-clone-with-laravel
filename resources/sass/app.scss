@@ -23,3 +23,11 @@ form.form-delete {
 .answer-infos {
 	align-items: flex-end;
 }
+
+.answer-form-size-quick-fix {
+	min-width: 30em;
+}
+
+[v-cloak] {
+	display: none;
+}

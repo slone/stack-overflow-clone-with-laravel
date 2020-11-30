@@ -13,7 +13,7 @@ class Answer extends Model
 	use HasFactory;
 
 	protected $fillable = ['body', 'user_id'];
-	protected $appends = ['created_date'];
+	protected $appends = ['body_html','created_date'];
 
 	/**
 	 * Relation to Question model
@@ -32,17 +32,6 @@ class Answer extends Model
 	public function user() {
 		return $this->belongsTo(User::class);
 	}
-
-	/**
-	 * Relation to User votes
-	 * 
-	 * @return mixed
-	 */
-	public function votes() {
-		return $this->morphToMany(User::class, 'votable'); // (related model, singular form of table name)
-	}
-
-
 
 	public function getBodyHtmlAttribute() {
 		$markdown = new CommonMarkConverter(['allow_unsafe_links' => false]);
@@ -71,24 +60,6 @@ class Answer extends Model
 
 	public function getIsBestAttribute() {
 		return $this->id === $this->question->best_answer_id;
-	}
-
-	/**
-	 * return collection of positive votes
-	 * 
-	 * @return Array
-	 */
-	public function upVotes() {
-		return $this->votes()->wherePivot('vote', 1);
-	}
-
-	/**
-	 * return collection of negative votes
-	 * 
-	 * @return Array
-	 */
-	public function downVotes() {
-		return $this->votes()->wherePivot('vote', -1);
 	}
 
 }

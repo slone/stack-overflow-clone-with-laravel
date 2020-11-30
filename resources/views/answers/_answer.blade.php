@@ -1,42 +1,53 @@
-<div class="media post answer-wrapper">
-	<div class="row">
+<answer :answer="{{ $answer }}" inline-template>
+	<div class="media post answer-wrapper">
+		<div class="row">
+	
+			@include('shared._vote-controls', [
+				'model' => $answer,
+			])
+	
+			<div class="media-body">
+				<form v-if="editing" class="answer-form-size-quick-fix" @submit.prevent="update">
+					<div class="form-group">
+						<textarea required v-model="body" rows="10" class="form-control"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" type="submit" :disabled="isInvalid">{{ __('Update') }}</button>
+						<button class="btn btn-outline-secondary" type="button" @click.prevent="cancel">{{ __('Cancel') }}</button>
+					</div>
+				</form>
+				<div v-else>
 
-		@include('shared._vote-controls', [
-			'model' => $answer,
-		])
+					<div v-html="bodyHtml"></div>
+	
+	
+					<footer class="row answer-infos">
+						<div class="col-4 owner-controls">
+							<div class="ml-auto">
+								@can('update', $answer)
+								<a @click.prevent="edit" href="#" class="btn btn-sm btn-outline-info">{{ __('Edit') }}</a>
+								@endcan
+			
+								@can('delete', $answer)
+								<form method="post" action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}" class="form-delete">
+									@method('DELETE')
+									@csrf
+									<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you wish to delete this question?')">{{ __('Delete') }}</button>
+								</form>
+								@endcan 
+							</div>								
+						</div>
+						<div class="col-3"></div>
+						<div class="col-5">
+							<user-info :model="{{ $answer }}" label="{{ __('answered') }}"></user-info>
+						</div>
+					</footer>					
 
-		<div class="media-body">
-		{!! $answer->body_html !!}
-
-
-		<footer class="row answer-infos">
-			<div class="col-4 owner-controls">
-
-				<div class="ml-auto">
-					@can('update', $answer)
-					<a href="{{ route('questions.answers.edit', [$question->id, $answer->id]) }}" class="btn btn-sm btn-outline-info">{{ __('Edit') }}</a>
-					@endcan
-
-					@can('delete', $answer)
-					<form method="post" action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}" class="form-delete">
-						@method('DELETE')
-						@csrf
-						<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you wish to delete this question?')">{{ __('Delete') }}</button>
-					</form>
-					@endcan 
-				</div>								
+				</div>
 			</div>
-			<div class="col-3"></div>
-			<div class="col-5">
-
-				<user-info :model="{{ $answer }}" label="{{ __('answered') }}"></user-info>
-				
-			</div>
-		</footer>
-
-
+	
+	
 		</div>
-
-
 	</div>
-</div>
+</answer>	
+

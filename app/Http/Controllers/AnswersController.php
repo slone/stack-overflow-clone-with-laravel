@@ -52,6 +52,14 @@ class AnswersController extends Controller
 			'body' => 'required',
 		]));
 
+		if ($request->expectsJson()) {
+			return response()->json([
+				'message' => __('your answser has been modified'),
+				'body_html' => $answer->body_html
+			]);
+		}
+
+		// default uses route to view
 		return redirect()->route('questions.show', $question->slug)->with('success', __('your answser has been modified'));
 	}
 
