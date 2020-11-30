@@ -18,7 +18,6 @@ export default {
 		create() {
 			axios.post(this.endpoint)
 				.then( res=> {
-					console.log(res);
 					this.$toast.success(res.data.message, "Success", {
 						timeout: 3000,
 						position: "bottomLeft"
@@ -26,7 +25,6 @@ export default {
 					this.isBest = !this.isBest;
 				})
 				.catch( err=> {
-					console.log(err);
 					this.$toast.error(err.response.data.message, 'Error', { timeout: 3000 });
 				})
 		}
@@ -36,7 +34,7 @@ export default {
 			return `/answers/${this.id}/accept`;
 		},
 		canAcceptAnswer() {
-			return true;
+			return this.authorize('accept', this.answer);
 		},
 		isAcceptedAnswer() {
 			return !this.canAcceptAnswer && this.isBest;

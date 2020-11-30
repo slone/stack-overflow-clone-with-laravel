@@ -16,9 +16,6 @@ export default {
 		}
 	},
 	computed: {
-		signedIn() {
-			return window.Auth.signedIn;
-		},
 		classes() {
 			return [
 				'favorite', 'mt-2', 

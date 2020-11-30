@@ -1928,8 +1928,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post(this.endpoint).then(function (res) {
-        console.log(res);
-
         _this.$toast.success(res.data.message, "Success", {
           timeout: 3000,
           position: "bottomLeft"
@@ -1937,8 +1935,6 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.isBest = !_this.isBest;
       })["catch"](function (err) {
-        console.log(err);
-
         _this.$toast.error(err.response.data.message, 'Error', {
           timeout: 3000
         });
@@ -1950,7 +1946,7 @@ __webpack_require__.r(__webpack_exports__);
       return "/answers/".concat(this.id, "/accept");
     },
     canAcceptAnswer: function canAcceptAnswer() {
-      return true;
+      return this.authorize('accept', this.answer);
     },
     isAcceptedAnswer: function isAcceptedAnswer() {
       return !this.canAcceptAnswer && this.isBest;
@@ -2082,9 +2078,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    signedIn: function signedIn() {
-      return window.Auth.signedIn;
-    },
     classes: function classes() {
       return ['favorite', 'mt-2', !this.signedIn ? 'off' : this.isFavorited ? 'favorited' : ''];
     },
@@ -50067,9 +50060,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _authorization_authorize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./authorization/authorize */ "./resources/js/authorization/authorize.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -50080,6 +50076,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.VueIziToast = __webpack_require__(/*! vue-izitoast */ "./node_modules/vue-izitoast/dist/vue-izitoast.js");
 Vue.use(VueIziToast);
+
+Vue.use(_authorization_authorize__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -50102,6 +50100,56 @@ Vue.component('AcceptButton', __webpack_require__(/*! ./components/AcceptButton.
 
 var app = new Vue({
   el: '#app'
+});
+
+/***/ }),
+
+/***/ "./resources/js/authorization/authorize.js":
+/*!*************************************************!*\
+  !*** ./resources/js/authorization/authorize.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _policies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./policies */ "./resources/js/authorization/policies.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  install: function install(Vue, options) {
+    Vue.prototype.authorize = function (policy, model) {
+      if (!window.Auth.signedIn) return false;
+
+      if (typeof policy === "string" && _typeof(model) === "object") {
+        var user = window.Auth.user;
+        return _policies__WEBPACK_IMPORTED_MODULE_0__["default"][policy](user, model); // authorize(policy, model);
+      }
+    };
+
+    Vue.prototype.signedIn = window.Auth.signedIn;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/authorization/policies.js":
+/*!************************************************!*\
+  !*** ./resources/js/authorization/policies.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  modify: function modify(user, model) {
+    return user.id === model.id;
+  },
+  accept: function accept(user, answer) {
+    return user.id === answer.question.user_id;
+  }
 });
 
 /***/ }),

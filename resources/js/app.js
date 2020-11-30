@@ -9,8 +9,11 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.VueIziToast = require('vue-izitoast');
-
 Vue.use(VueIziToast);
+
+import VueAuthorization from './authorization/authorize';
+Vue.use(VueAuthorization);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -34,5 +37,5 @@ Vue.component('AcceptButton', require('./components/AcceptButton.vue').default);
  */
 
 const app = new Vue({
-    el: '#app',
+	el: '#app',
 });
