@@ -34,9 +34,8 @@
 	</form>							
 
 	@if ($is_question) 
-		@include('shared._favorite-control', [
-			'model' => $model
-		])
+	<favorite-button :question="{{ $model }}"></favorite-button>
+
 	@elseif ($is_answer)
 		@include('shared._accept-control', [
 			'model' => $model

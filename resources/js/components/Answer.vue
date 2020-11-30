@@ -46,7 +46,7 @@ export default {
 			});
 		},
 		destroy() {
-			this.$toast.question('Are you sure about that?', 'Confirm deletion', {
+			this.$toast.question('<p>Are you sure you wish to delete this answer?</p>\r\n<p><strong>This cannot be undone!</strong></p>', 'Confirm deletion', {
 				timeout: 20000,
 				close: false,
 				overlay: true,

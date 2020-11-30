@@ -1,39 +1,40 @@
 .vote-controls {
-    min-width: 4em;
-    margin-right: 2em;
-    text-align: center;
-    color: $gray-700;
+	min-width: 4em;
+	margin-right: 2em;
+	text-align: center;
+	color: $gray-700;
 
-    span, a {
-        display: block;
-    }
+	span, a {
+		display: block;
+	}
 
-    span{
-        &.votes-count {
-            font-size: 1.8em;
-            line-height: 1;
-        }
-        &.favorites-count {
-            font-size: .75em;
-        }
-    }
+	span{
+		&.votes-count {
+			font-size: 1.8em;
+			line-height: 1;
+		}
+		&.favorites-count {
+			font-size: .75em;
+		}
+	}
 
-    a {
-        cursor:pointer;
-        color: $gray-600;
+	a {
+		cursor:pointer;
+		color: $gray-600;
+		text-decoration: none;
 
-        &.off, &off:hover {
-            color: $gray-500;
-        }
+		&.off, &off:hover {
+			color: $gray-500;
+		}
 
-        &.favorite {
-            &.favorited, &.favorited:hover {
-                color: $warning;
-            }
-        }
+		&.favorite {
+			&.favorited i, &.favorited:hover i {
+				color: $warning;
+			}
+		}
 
-        &.vote-accepted {
-            color: $green;
-        }
-    }
+		&.vote-accepted {
+			color: $green;
+		}
+	}
 }

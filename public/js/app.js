@@ -1960,7 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy() {
       var _this2 = this;
 
-      this.$toast.question('Are you sure about that?', 'Confirm deletion', {
+      this.$toast.question('<p>Are you sure you wish to delete this answer?</p>\r\n<p><strong>This cannot be undone!</strong></p>', 'Confirm deletion', {
         timeout: 20000,
         close: false,
         overlay: true,
@@ -1985,6 +1985,86 @@ __webpack_require__.r(__webpack_exports__);
             transitionOut: 'fadeOut'
           }, toast, 'button');
         }]]
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['question'],
+  data: function data() {
+    return {
+      isFavorited: this.question.is_favorited,
+      count: this.question.favorites_count,
+      id: this.question.id
+    };
+  },
+  computed: {
+    signedIn: function signedIn() {
+      return window.Auth.signedIn;
+    },
+    classes: function classes() {
+      return ['favorite', 'mt-2', !this.signedIn ? 'off' : this.isFavorited ? 'favorited' : ''];
+    },
+    endpoint: function endpoint() {
+      return "/questions/".concat(this.id, "/favorites");
+    }
+  },
+  methods: {
+    toggleFavorite: function toggleFavorite() {
+      if (!this.signedIn) this.$toast.warning('You need to be logged in to be able to add a question to your favorite', "Warning", {
+        timeout: 3000,
+        position: 'bottomLeft'
+      });else this.isFavorited ? this.destroyFavorite() : this.createFavorite();
+    },
+    destroyFavorite: function destroyFavorite() {
+      var _this = this;
+
+      axios["delete"](this.endpoint).then(function (res) {
+        _this.count--;
+        _this.isFavorited = false;
+
+        _this.$toast.success("Question is no longer a favorite.", 'Success', {
+          timeout: 3000
+        });
+      })["catch"](function (err) {
+        _this.$toast.error(err.response.data.message, 'Error', {
+          timeout: 3000
+        });
+      });
+    },
+    createFavorite: function createFavorite() {
+      var _this2 = this;
+
+      axios.post(this.endpoint).then(function (res) {
+        _this2.count++;
+        _this2.isFavorited = true;
+
+        _this2.$toast.success("Question has been added to your favorite.", 'Success', {
+          timeout: 3000
+        });
+      })["catch"](function (err) {
+        _this2.$toast.error(err.response.data.message, 'Error', {
+          timeout: 3000
+        });
       });
     }
   }
@@ -37617,6 +37697,49 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    {
+      class: _vm.classes,
+      attrs: { title: "Click to favorite the question - click again to undo" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          return _vm.toggleFavorite($event)
+        }
+      }
+    },
+    [
+      _c("i", { staticClass: "fas fa-star fa-2x" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "favorites-count" }, [
+        _vm._v(_vm._s(_vm.count))
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UserInfo.vue?vue&type=template&id=11f66ff8&":
 /*!***********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UserInfo.vue?vue&type=template&id=11f66ff8& ***!
@@ -49848,6 +49971,7 @@ Vue.use(VueIziToast);
 
 Vue.component('user-info', __webpack_require__(/*! ./components/UserInfo.vue */ "./resources/js/components/UserInfo.vue")["default"]);
 Vue.component('answer', __webpack_require__(/*! ./components/Answer.vue */ "./resources/js/components/Answer.vue")["default"]);
+Vue.component('FavoriteButton', __webpack_require__(/*! ./components/FavoriteButton.vue */ "./resources/js/components/FavoriteButton.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49952,6 +50076,75 @@ component.options.__file = "resources/js/components/Answer.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Answer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Answer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Answer.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Answer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FavoriteButton.vue?vue&type=template&id=27e8fc19& */ "./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&");
+/* harmony import */ var _FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FavoriteButton.vue?vue&type=script&lang=js& */ "./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FavoriteButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FavoriteButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FavoriteButton.vue?vue&type=template&id=27e8fc19& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

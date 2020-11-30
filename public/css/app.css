@@ -17076,6 +17076,7 @@ readers do not read off random characters that represent icons */
 .vote-controls a {
   cursor: pointer;
   color: #6c757d;
+  text-decoration: none;
 }
 
 .vote-controls a.off,
@@ -17083,8 +17084,8 @@ readers do not read off random characters that represent icons */
   color: #adb5bd;
 }
 
-.vote-controls a.favorite.favorited,
-.vote-controls a.favorite.favorited:hover {
+.vote-controls a.favorite.favorited i,
+.vote-controls a.favorite.favorited:hover i {
   color: #ffed4a;
 }
 
@@ -17109,7 +17110,7 @@ form.form-delete {
 }
 
 .answer-form-size-quick-fix {
-  min-width: 30em;
+  min-width: 35em;
 }
 
 [v-cloak] {
