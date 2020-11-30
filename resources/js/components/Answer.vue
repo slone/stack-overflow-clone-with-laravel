@@ -1,39 +1,35 @@
 <template>
 	<div class="media post answer-wrapper">
-		<div class="row">
 
 			<vote-buttons :model="answer" name="answer"></vote-buttons>
 	
 			<div class="media-body">
-				<form v-if="editing" class="answer-form-size-quick-fix" @submit.prevent="update">
+
+				<form v-if="editing" @submit.prevent="update">
 					<div class="form-group">
 						<textarea required v-model="body" rows="10" class="form-control"></textarea>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary" type="submit" :disabled="isInvalid">{{ __('Update') }}</button>
-						<button class="btn btn-outline-secondary" type="button" @click.prevent="cancel">{{ __('Cancel') }}</button>
+						<button class="btn btn-primary" type="submit" :disabled="isInvalid">Update</button>
+						<button class="btn btn-outline-secondary" type="button" @click.prevent="cancel">Cancel</button>
 					</div>
 				</form>
-				<div v-else>
 
-					<div v-html="bodyHtml"></div>
+				<div v-else v-html="bodyHtml"></div>
 
-					<footer class="row answer-infos">
-						<div class="col-4 owner-controls">
-							<div class="ml-auto">
-								<a 			v-if="authorize('modify', answer)" @click.prevent="edit" 	href="#" 		class="btn btn-sm btn-outline-info">Edit</a>
-								<button 	v-if="authorize('modify', answer)" @click.prevent="destroy" type="button" 	class="btn btn-sm btn-outline-danger">Delete</button>
-							</div>								
-						</div>
-						<div class="col-3"></div>
-						<div class="col-5">
-							<user-info :model="answer" label="answered"></user-info>
-						</div>
-					</footer>					
-
-				</div>
+				<footer v-if="!editing" class="row answer-infos">
+					<div class="col-4 owner-controls">
+						<div class="ml-auto">
+							<a 			v-if="authorize('modify', answer)" @click.prevent="edit" 	href="#" 		class="btn btn-sm btn-outline-info">Edit</a>
+							<button 	v-if="authorize('modify', answer)" @click.prevent="destroy" type="button" 	class="btn btn-sm btn-outline-danger">Delete</button>
+						</div>								
+					</div>
+					<div class="col-3"></div>
+					<div class="col-5">
+						<user-info :model="answer" label="answered"></user-info>
+					</div>
+				</footer>					
 			</div>
-		</div>
 	</div>
 </template>
 
@@ -64,7 +60,8 @@ export default {
 	},
 
 	methods: {
-		edit() {
+		edit(e) {
+			console.log(e);
 			this.editing = true;
 			this.beforeEditCache = this.body;
 		},

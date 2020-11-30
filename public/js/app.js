@@ -2004,10 +2004,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['answer'],
@@ -2033,7 +2029,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    edit: function edit() {
+    edit: function edit(e) {
+      console.log(e);
       this.editing = true;
       this.beforeEditCache = this.body;
     },
@@ -38050,139 +38047,136 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "media post answer-wrapper" }, [
-    _c(
-      "div",
-      { staticClass: "row" },
-      [
-        _c("vote-buttons", { attrs: { model: _vm.answer, name: "answer" } }),
-        _vm._v(" "),
-        _c("div", { staticClass: "media-body" }, [
-          _vm.editing
-            ? _c(
-                "form",
-                {
-                  staticClass: "answer-form-size-quick-fix",
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.update($event)
-                    }
+  return _c(
+    "div",
+    { staticClass: "media post answer-wrapper" },
+    [
+      _c("vote-buttons", { attrs: { model: _vm.answer, name: "answer" } }),
+      _vm._v(" "),
+      _c("div", { staticClass: "media-body" }, [
+        _vm.editing
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.update($event)
                   }
-                },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.body,
-                          expression: "body"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { required: "", rows: "10" },
-                      domProps: { value: _vm.body },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.body = $event.target.value
-                        }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.body,
+                        expression: "body"
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "submit", disabled: _vm.isInvalid }
-                      },
-                      [_vm._v(_vm._s(_vm.__("Update")))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-outline-secondary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.cancel($event)
-                          }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", rows: "10" },
+                    domProps: { value: _vm.body },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      },
-                      [_vm._v(_vm._s(_vm.__("Cancel")))]
-                    )
-                  ])
-                ]
-              )
-            : _c("div", [
-                _c("div", { domProps: { innerHTML: _vm._s(_vm.bodyHtml) } }),
+                        _vm.body = $event.target.value
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
-                _c("footer", { staticClass: "row answer-infos" }, [
-                  _c("div", { staticClass: "col-4 owner-controls" }, [
-                    _c("div", { staticClass: "ml-auto" }, [
-                      _vm.authorize("modify", _vm.answer)
-                        ? _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-sm btn-outline-info",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.edit($event)
-                                }
-                              }
-                            },
-                            [_vm._v("Edit")]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.authorize("modify", _vm.answer)
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-sm btn-outline-danger",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.destroy($event)
-                                }
-                              }
-                            },
-                            [_vm._v("Delete")]
-                          )
-                        : _vm._e()
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-3" }),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit", disabled: _vm.isInvalid }
+                    },
+                    [_vm._v("Update")]
+                  ),
                   _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "col-5" },
-                    [
-                      _c("user-info", {
-                        attrs: { model: _vm.answer, label: "answered" }
-                      })
-                    ],
-                    1
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-secondary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.cancel($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel")]
                   )
                 ])
-              ])
-        ])
-      ],
-      1
-    )
-  ])
+              ]
+            )
+          : _c("div", { domProps: { innerHTML: _vm._s(_vm.bodyHtml) } }),
+        _vm._v(" "),
+        !_vm.editing
+          ? _c("footer", { staticClass: "row answer-infos" }, [
+              _c("div", { staticClass: "col-4 owner-controls" }, [
+                _c("div", { staticClass: "ml-auto" }, [
+                  _vm.authorize("modify", _vm.answer)
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-outline-info",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.edit($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Edit")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.authorize("modify", _vm.answer)
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.destroy($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-3" }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-5" },
+                [
+                  _c("user-info", {
+                    attrs: { model: _vm.answer, label: "answered" }
+                  })
+                ],
+                1
+              )
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
