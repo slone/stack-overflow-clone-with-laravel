@@ -2075,11 +2075,8 @@ __webpack_require__.r(__webpack_exports__);
         position: 'center',
         buttons: [['<button><b>YES</b></button>', function (instance, toast) {
           axios["delete"](_this2.endpoint).then(function (res) {
-            $(_this2.$el).fadeOut(500, function () {
-              _this2.$toast.success(res.data.message, 'Success', {
-                timeout: 3000
-              });
-            });
+            // this.$toast.success(res.data.message, 'Success', { timeout: 3000 });
+            _this2.$emit('answer-deleted');
           });
           instance.hide({
             transitionOut: 'fadeOut'
@@ -38140,7 +38137,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v(_vm._s(_vm.__("Edit")))]
+                            [_vm._v("Edit")]
                           )
                         : _vm._e(),
                       _vm._v(" "),
@@ -38157,7 +38154,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v(_vm._s(_vm.__("Delete")))]
+                            [_vm._v("Delete")]
                           )
                         : _vm._e()
                     ])
@@ -50645,7 +50642,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       if (typeof policy === "string" && _typeof(model) === "object") {
         var user = window.Auth.user;
-        return _policies__WEBPACK_IMPORTED_MODULE_0__["default"][policy](user, model); // authorize(policy, model);
+        return _policies__WEBPACK_IMPORTED_MODULE_0__["default"][policy](user, model);
       }
     };
 
@@ -50666,7 +50663,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   modify: function modify(user, model) {
-    return user.id === model.id;
+    return user.id === model.user_id;
   },
   accept: function accept(user, answer) {
     return user.id === answer.question.user_id;

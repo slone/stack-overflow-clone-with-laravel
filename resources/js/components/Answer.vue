@@ -21,8 +21,8 @@
 					<footer class="row answer-infos">
 						<div class="col-4 owner-controls">
 							<div class="ml-auto">
-								<a 			v-if="authorize('modify', answer)" @click.prevent="edit" href="#" class="btn btn-sm btn-outline-info">{{ __('Edit') }}</a>
-								<button 	v-if="authorize('modify', answer)" type="button" class="btn btn-sm btn-outline-danger" @click.prevent="destroy">{{ __('Delete') }}</button>
+								<a 			v-if="authorize('modify', answer)" @click.prevent="edit" 	href="#" 		class="btn btn-sm btn-outline-info">Edit</a>
+								<button 	v-if="authorize('modify', answer)" @click.prevent="destroy" type="button" 	class="btn btn-sm btn-outline-danger">Delete</button>
 							</div>								
 						</div>
 						<div class="col-3"></div>
@@ -101,9 +101,8 @@ export default {
 					['<button><b>YES</b></button>', (instance, toast) => {
 						axios.delete(this.endpoint)
 						.then( res => {
-							$(this.$el).fadeOut(500, () => {
-								this.$toast.success(res.data.message, 'Success', { timeout: 3000 });
-							})
+						// this.$toast.success(res.data.message, 'Success', { timeout: 3000 });
+							this.$emit('answer-deleted')
 						});
 
 						instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
