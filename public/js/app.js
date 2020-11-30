@@ -2175,6 +2175,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    removeAnswer: function removeAnswer(index) {
+      this.answers.splice(index, 1);
+      this.count--;
     }
   }
 });
@@ -38219,10 +38223,15 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
-                  _vm._l(_vm.answers, function(answer) {
+                  _vm._l(_vm.answers, function(answer, index) {
                     return _c("answer", {
                       key: answer.id,
-                      attrs: { answer: answer }
+                      attrs: { answer: answer },
+                      on: {
+                        "answer-deleted": function($event) {
+                          return _vm.removeAnswer(index)
+                        }
+                      }
                     })
                   }),
                   _vm._v(" "),
