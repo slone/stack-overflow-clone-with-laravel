@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import EventBus from '../event-bus';
 export default {
 	props: ['answer'],
 	data() {
@@ -13,6 +14,11 @@ export default {
 			isBest: this.answer.is_best,
 			id: this.answer.id,
 		}
+	},
+	created() {
+		EventBus.$on('answer-accepted', id => {
+			this.isBest = id === this.id;
+		});
 	},
 	methods: {
 		create() {
@@ -22,7 +28,8 @@ export default {
 						timeout: 3000,
 						position: "bottomLeft"
 					});
-					this.isBest = !this.isBest;
+
+					EventBus.$emit('answer-accepted', this.id);
 				})
 				.catch( err=> {
 					this.$toast.error(err.response.data.message, 'Error', { timeout: 3000 });
