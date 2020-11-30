@@ -8,6 +8,11 @@
 				</div>
 				<hr>
 				<answer v-for="answer in answers" :answer="answer" :key="answer.id"></answer>
+
+				<div class="text-center mt-3" v-if="nextUrl">
+					<button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more answers</button>
+				</div>
+	
 			</div>
 		</div>
 	</div>
@@ -21,11 +26,34 @@ import Answer from './Answer';
 
 export default {
 
-	props: ['answers', 'count'],
+	props: ['question'],
 	components: {Answer},
+	data() {
+		return {
+			questionId: this.question.id,
+			count: this.question.answers_count,
+			nextUrl: null,
+			answers: []
+		}
+	},
+	created() {
+		this.fetch(`/questions/${this.questionId}/answers`);
+	},
 	computed: {
 		title() {
 			return this.count+ " " + (this.count > 1 ? 'answers' : 'answer');
+		},
+	},
+	methods: {
+		fetch(endpoint) {
+			axios.get(endpoint)
+			.then( ({data}) => {
+				this.answers.push(...data.data);
+				this.nextUrl = data.next_page_url;
+			})
+			.catch( err => {
+				console.log(err);
+			})
 		}
 	}
 

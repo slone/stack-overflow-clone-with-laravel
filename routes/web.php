@@ -22,7 +22,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('questions', App\Http\Controllers\QuestionsController::class)->except('show');
 
 // Route::post('/questions/{question}/answers', App\Http\Controllers\AnswersController::class)->name('answers.store');
-Route::resource('questions.answers',  App\Http\Controllers\AnswersController::class)->except(['index', 'create', 'show']);
+Route::resource('questions.answers',  App\Http\Controllers\AnswersController::class)->except(['create', 'show']);
 // or ->only(['store', 'edit', 'update', 'destroy']);
 
 Route::get('/questions/{slug}', 'App\Http\Controllers\QuestionsController@show')->name('questions.show');
