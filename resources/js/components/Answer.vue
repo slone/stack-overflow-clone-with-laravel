@@ -11,11 +11,16 @@ export default {
 			beforeEditCache: null,
 		}
 	},
+
 	computed: {
 		isInvalid() {
 			return this.body.length < 40;
+		},
+		endpoint() {
+			return `/questions/${this.questionId}/answers/${this.id}`;
 		}
 	},
+
 	methods: {
 		edit() {
 			this.editing = true;
@@ -26,10 +31,8 @@ export default {
 			this.body = this.beforeEditCache;
 		},
 		update() {
-			this.beforeEditCache
-			let resourceUrl = `/questions/${this.questionId}/answers/${this.id}`;
 
-			axios.patch(resourceUrl, {
+			axios.patch(this.endpoint, {
 				body: this.body,
 			})
 			.then(res => {
@@ -40,6 +43,17 @@ export default {
 				console.error(err.response.data.message);
 				alert(err.response.data.message)
 			});
+		},
+		destroy() {
+			if (confirm('Are you sure?')) {
+
+				axios.delete(this.endpoint)
+				.then( res => {
+					$(this.$el).fadeOut(500, () => {
+						alert(res.data.message)
+					})
+				});
+			}	
 		}
 	}
 }
