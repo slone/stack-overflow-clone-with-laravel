@@ -1,21 +1,24 @@
 <template>
-<div v-if="count" v-cloak class="row mt-4 justify-content-center answers-wrapper">
-	<div class="col-md-8">
-		<div class="card">
-			<div class="card-body">
-				<div class="card-title">
-					<h2> {{ title }} </h2>
-				</div>
-				<hr>
-				<answer @answer-deleted="removeAnswer(index)" v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
+<div>
+	<div v-if="count" v-cloak class="row mt-4 justify-content-center answers-wrapper">
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-body">
+					<div class="card-title">
+						<h2> {{ title }} </h2>
+					</div>
+					<hr>
+					<answer @answer-deleted="removeAnswer(index)" v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
 
-				<div class="text-center mt-3" v-if="nextUrl">
-					<button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more answers</button>
+					<div class="text-center mt-3" v-if="nextUrl">
+						<button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more answers</button>
+					</div>
+		
 				</div>
-	
 			</div>
 		</div>
 	</div>
+	<new-answer @new-answer-added="add" :question-id="question.id"></new-answer>
 </div>
 	
 </template>
@@ -23,11 +26,12 @@
 
 <script>
 import Answer from './Answer';
+import NewAnswer from './NewAnswer';
 
 export default {
 
 	props: ['question'],
-	components: {Answer},
+	components: {Answer, NewAnswer},
 	data() {
 		return {
 			questionId: this.question.id,
@@ -45,6 +49,10 @@ export default {
 		},
 	},
 	methods: {
+		add(answer) {
+			this.answers.push(answer);
+			this.count++;
+		},
 		fetch(endpoint) {
 			axios.get(endpoint)
 			.then( ({data}) => {
