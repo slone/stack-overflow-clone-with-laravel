@@ -1,44 +1,45 @@
 <template>
 	<div class="media post answer-wrapper">
 
-			<vote-buttons :model="answer" name="answer"></vote-buttons>
-	
-			<div class="media-body">
+		<vote-buttons :model="answer" name="answer"></vote-buttons>
 
-				<form v-if="editing" @submit.prevent="update">
-					<div class="form-group">
-						<textarea required v-model="body" rows="10" class="form-control"></textarea>
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary" type="submit" :disabled="isInvalid">Update</button>
-						<button class="btn btn-outline-secondary" type="button" @click.prevent="cancel">Cancel</button>
-					</div>
-				</form>
+		<div class="media-body">
 
-				<div v-else v-html="bodyHtml"></div>
+			<form v-if="editing" @submit.prevent="update">
+				<div class="form-group">
+					<textarea required v-model="body" rows="10" class="form-control"></textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary" type="submit" :disabled="isInvalid">Update</button>
+					<button class="btn btn-outline-secondary" type="button" @click.prevent="cancel">Cancel</button>
+				</div>
+			</form>
 
-				<footer v-if="!editing" class="row answer-infos">
-					<div class="col-4 owner-controls">
-						<div class="ml-auto">
-							<a 			v-if="authorize('modify', answer)" @click.prevent="edit" 	href="#" 		class="btn btn-sm btn-outline-info">Edit</a>
-							<button 	v-if="authorize('modify', answer)" @click.prevent="destroy" type="button" 	class="btn btn-sm btn-outline-danger">Delete</button>
-						</div>								
-					</div>
-					<div class="col-3"></div>
-					<div class="col-5">
-						<user-info :model="answer" label="answered"></user-info>
-					</div>
-				</footer>					
-			</div>
+			<div v-else v-html="bodyHtml"></div>
+
+			<footer v-if="!editing" class="row answer-infos">
+				<div class="col-4 owner-controls">
+					<div class="ml-auto">
+						<a 			v-if="authorize('modify', answer)" @click.prevent="edit" 	href="#" 		class="btn btn-sm btn-outline-info">Edit</a>
+						<button 	v-if="authorize('modify', answer)" @click.prevent="destroy" type="button" 	class="btn btn-sm btn-outline-danger">Delete</button>
+					</div>								
+				</div>
+				<div class="col-3"></div>
+				<div class="col-5">
+					<user-info :model="answer" label="answered"></user-info>
+				</div>
+			</footer>					
+		</div>
 	</div>
 </template>
 
 <script>
-import VoteButtons from './VoteButtons.vue';
+import UserInfo from './UserInfo';
+import VoteButtons from './VoteButtons';
 
 export default {
 	props: ['answer'],
-	components: {VoteButtons},
+	components: {VoteButtons,UserInfo},
 	data() {
 		return {
 			editing: false,

@@ -94,9 +94,27 @@ class QuestionsController extends Controller
 	{
 		$this->authorize('update', $question);
 		if ($request->body != $question->body || $request->title != $question->title) {
+			
 			$question->update($request->only('title', 'body'));
+			
+			if ($request->expectsJson()) {
+				return response()->json([
+					'message' => __('Your question has been updated'),
+					'body_html' => $question->body_html
+				]);
+			}
+
 			return redirect()->route('questions.index')->with('success', __('Your question has been updated'));
-		} else return redirect()->route('questions.index');
+		} else {
+			if ($request->expectsJson()) {
+				return response()->json([
+					'message' => __('There was an error trying to update the question. Please try again later'),
+					'body_html' => $question->body_html
+				]);
+			}
+
+			return redirect()->route('questions.index');
+		} 
 	}
 
 	/**
@@ -109,6 +127,12 @@ class QuestionsController extends Controller
 	{
 		$this->authorize('delete', $question);
 		$question->delete();
+
+		if (request()->expectsJson()) {
+			return response()->json([
+				'message' => __('Your question has been deleted')
+			]);
+		}
 		return redirect()->route('questions.index')->with('success', __('Your question has been deleted'));
 	}
 }
