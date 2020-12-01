@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,36 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+	/**
+	 * get token for api authentication
+	 * @param Request   $request 
+	 * 
+	 * @return Response
+	 */
+	public function getToken(Request $request) {
+		$request->request->add([
+			'grant_type' => 'password',
+			'client_id' => 4, 
+			'client_secret' => 'eVTjWLbHadYDXvFi4mQAesjpNlzMblbgVDnFUMue',
+			'username' => $request->username,
+			'password' => $request->password,
+		]);
+
+		$requestToken = Request::create(env('APP_URL') . '/oauth/token', 'post');
+		$response = Route::dispatch($requestToken);
+
+		return $response;
+	}
 }
+
+/**
+ * 
+ * Personal access client created successfully.
+ * Client ID: 3
+ * Client secret: zGbU894f2XHfOnKslN34eCUAS3YQhXQvwySP6iwc
+ * Password grant client created successfully.
+ * Client ID: 4
+ * Client secret: eVTjWLbHadYDXvFi4mQAesjpNlzMblbgVDnFUMue
+ * 
+ */

@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-	use HasFactory, Notifiable;
+	use HasFactory, Notifiable, HasApiTokens;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -25,6 +26,8 @@ class User extends Authenticatable
 
 	/**
 	 * dynamic attributes to be included when instancing the model
+	 * 
+	 * @var array
 	 */
 	protected $appends = [
 		'url', 'avatar'
