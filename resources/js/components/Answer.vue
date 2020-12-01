@@ -36,13 +36,14 @@
 <script>
 import UserInfo from './UserInfo';
 import VoteButtons from './VoteButtons';
+import modification from '../mixins/modification';
 
 export default {
 	props: ['answer'],
 	components: {VoteButtons,UserInfo},
+	mixins: [modification],
 	data() {
 		return {
-			editing: false,
 			body: this.answer.body,
 			bodyHtml: this.answer.body_html,
 			id: this.answer.id,
@@ -61,59 +62,26 @@ export default {
 	},
 
 	methods: {
-		edit(e) {
-			console.log(e);
-			this.editing = true;
+		setEditCache() {
 			this.beforeEditCache = this.body;
 		},
-		cancel() {
-			this.editing = false;
+		restoreFromCache() {
 			this.body = this.beforeEditCache;
 		},
-		update() {
-
-			axios.patch(this.endpoint, {
+		payload() {
+			return {
 				body: this.body,
+			};
+		},
+		delete() {
+			axios.delete(this.endpoint)
+			.then( res => {
+				this.$emit('answer-deleted')
 			})
-			.then(res => {
-				this.bodyHtml = res.data.body_html;
-				this.editing=false;
-				this.$toast.success(err.response.data.message, 'Success', { timeout: 3000 });
-			})
-			.catch(err => {
-				console.error(err.response.data.message);
-				this.$toast.error(err.response.data.message, 'Error', { timeout: 3000 });
+			.catch( ({ response }) => {
+				this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
 			});
 		},
-		destroy() {
-			this.$toast.question('<p>Are you sure you wish to delete this answer?</p>\r\n<p><strong>This cannot be undone!</strong></p>', 'Confirm deletion', {
-				timeout: 20000,
-				close: false,
-				overlay: true,
-				displayMode: 'once',
-				id: 'question',
-				zindex: 999,
-				title: 'Hey',
-				position: 'center',
-				buttons: [
-					['<button><b>YES</b></button>', (instance, toast) => {
-						axios.delete(this.endpoint)
-						.then( res => {
-						// this.$toast.success(res.data.message, 'Success', { timeout: 3000 });
-							this.$emit('answer-deleted')
-						});
-
-						instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-					}, true],
-					['<button>NO</button>', function (instance, toast) {
-
-						instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-					}],
-				],
-			});
-		}
 	}
 }
 </script>

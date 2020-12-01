@@ -66,17 +66,18 @@
 <script>
 import UserInfo from './UserInfo';
 import VoteButtons from './VoteButtons';
+import modification from '../mixins/modification';
 
 export default {
 	props: ['question'],
 	components: {UserInfo, VoteButtons},
+	mixins: [modification],
 	data() {
 		return {
 			id: this.question.id,
 			title: this.question.title,
 			body: this.question.body,
 			bodyHtml: this.question.body_html,
-			editing: false,
 			beforeEditCache: {},
 		}
 	},
@@ -89,71 +90,37 @@ export default {
 		}
 	},
 	methods: {
-		edit() {
+		setEditCache() {
 			this.beforeEditCache = {
 				body: this.body,
 				title: this.title,	
 			};
-			this.editing = true;
 		},
-		cancel() {
+		restoreFromCache() {
 			this.body = this.beforeEditCache.body;
 			this.title = this.beforeEditCache.title;
-			this.editing = false;
 		},
-		update() {
-			axios.put(this.endpoint, {
+		payload() {
+			return {
 				body: this.body,
 				title: this.title,
+			};
+		},
+		delete() {
+			axios.delete(this.endpoint)
+			.then( ({ data }) => {
+				let msg = data.message + "<br>You will be redirected to the question list in a few seconds.";
+				this.$toast.success(msg, 'Success', { 
+					timeout: 7000,				
+					onClosed() {
+						window.location.href = "/questions";
+					} 
+				});
 			})
-			.catch(({response}) => {
-				this.$toast.error(reponse.data.message, "Error", {timeout: 3000 });
-			})
-			.then(({data}) => {
-				this.bodyHtml = data.body_html;
-				this.$toast.success(data.message, "Success", {timeout: 3000});
-				this.editing = false;
+			.catch( ({ response }) => {
+				this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
 			});
 		},
-		destroy() {
-			this.$toast.question('<p>Are you sure you wish to delete this question?</p>\r\n<p><strong>This cannot be undone!</strong></p>', 'Confirm deletion', {
-				timeout: 4000,
-				close: false,
-				overlay: true,
-				displayMode: 'once',
-				id: 'question',
-				zindex: 999,
-				title: 'Hey',
-				position: 'center',
-				buttons: [
-					['<button><b>YES</b></button>', (instance, toast) => {
-						axios.delete(this.endpoint)
-						.then( ({ data }) => {
-							let msg = data.message + "<br>You will be redirected to the question list in a few seconds.";
-							this.$toast.success(msg, 'Success', { 
-								timeout: 7000,				
-								onClosed() {
-									window.location.href = "/questions";
-								} 
-							});
-						})
-						.catch( ({ response }) => {
-							this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
-						});
-
-						instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-					}, true],
-					['<button>NO</button>', function (instance, toast) {
-
-						instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-					}],
-				],
-
-			});
-		}
-
 	}
 }
 </script>
