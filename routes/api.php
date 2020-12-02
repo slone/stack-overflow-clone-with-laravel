@@ -19,9 +19,9 @@ Route::post('/token', [ LoginController::class, 'getToken' ]);
 Route::get('/questions', [ App\Http\Controllers\Api\QuestionsController::class, 'index']);
 
 Route::middleware(['auth:api'])->group(function() {
-    Route::apiResource('/questions', App\Http\Controllers\Api\QuestionsController::class)->except('index');
+	Route::apiResource('/questions', App\Http\Controllers\Api\QuestionsController::class)->except('index');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });

@@ -88,6 +88,7 @@ class QuestionsController extends Controller
 	 *
 	 * @param  App\Http\Requests\AskQuestionRequest  $request
 	 * @param  \App\Models\Question  $question
+	 * 
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(AskQuestionRequest $request, Question $question)

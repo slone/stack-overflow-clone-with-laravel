@@ -6,7 +6,7 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuestionResource;
-use App\Http\Requests\AskQuestionRequest;
+use App\Http\Requests\SaveQuestionRequest;
 
 
 class QuestionsController extends Controller
@@ -25,10 +25,11 @@ class QuestionsController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  App\Http\Requests\SaveQuestionRequest  $request
+	 * 
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(AskQuestionRequest $request)
+	public function store(SaveQuestionRequest $request)
 	{
 		$question = $request->user()->questions()->create($request->only('title', 'body'));
 
@@ -46,19 +47,33 @@ class QuestionsController extends Controller
 	 */
 	public function show(Question $question)
 	{
-		//
+		return response()->json([
+			'title' => $question->title,
+			'body'  => $question->body,
+			'body_html' => $question->body_html
+		]);
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Question  $question
+	 * @param  App\Http\Requests\SaveQuestionRequest  $request
+	 * @param  \App\Models\Question  					$question
+	 * 
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Question $question)
+	public function update(SaveQuestionRequest $request, Question $question)
 	{
-		//
+		$this->authorize('update', $question);
+
+		$question->update($request->only('title','body'));
+
+		return response()->json([
+			'message' 	=> __('Your question has been updated'),
+			'title' 	=> $question->title,
+			'body' 		=> $question->body,
+			'body_html' => $question->body_html
+		]);
 	}
 
 	/**
@@ -69,6 +84,11 @@ class QuestionsController extends Controller
 	 */
 	public function destroy(Question $question)
 	{
-		//
+		$this->authorize('delete', $question);
+		$question->delete();
+
+		return response()->json([
+			'message' => __('Your question has been deleted')
+		]);
 	}
 }
