@@ -16,11 +16,16 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::post('/token', [ LoginController::class, 'getToken' ]);
-Route::get('/questions', [ App\Http\Controllers\Api\QuestionsController::class, 'index']);
+Route::get('/questions/{slug}_{qid}', App\Http\Controllers\Api\QuestionDetailsController::class);
+Route::get('/questions/{slug}', App\Http\Controllers\Api\QuestionDetailsController::class);
 
 Route::middleware(['auth:api'])->group(function() {
 	Route::apiResource('/questions', App\Http\Controllers\Api\QuestionsController::class)->except('index');
 });
+
+Route::get('/questions', [ App\Http\Controllers\Api\QuestionsController::class, 'index']);
+
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
