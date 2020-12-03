@@ -15,7 +15,10 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::post('/token', [ LoginController::class, 'getToken' ]);
+Route::post('/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'store']);
+Route::delete('/logout', [App\Http\Controllers\Api\Auth\LoginController::class, 'destroy'])->middleware('auth:api');
+Route::post('/register', App\Http\Controllers\Api\Auth\RegisterController::class);
+
 Route::get('/questions/{slug}_{qid}', App\Http\Controllers\Api\QuestionDetailsController::class);
 Route::get('/questions/{question}/answers', [App\Http\Controllers\Api\AnswersController::class, 'index']);
 Route::get('/questions/{slug}', App\Http\Controllers\Api\QuestionDetailsController::class);
