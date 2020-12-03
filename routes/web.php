@@ -28,8 +28,8 @@ Route::resource('questions.answers',  App\Http\Controllers\AnswersController::cl
 Route::get('/questions/{slug}', 'App\Http\Controllers\QuestionsController@show')->name('questions.show');
 
 
-Route::post('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('questions.favorites');
-Route::delete('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'destroy'])->name('questions.favorites');
+Route::post('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('questions.favorite');
+Route::delete('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'destroy'])->name('questions.unfavorite');
 
 // One action route => this controller has an __invoke method
 Route::post('/answers/{answer}/accept', App\Http\Controllers\AcceptAnswerController::class)->name('answers.accept');

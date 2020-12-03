@@ -26,6 +26,12 @@ Route::middleware(['auth:api'])->group(function() {
 
 	Route::post('/questions/{question}/vote', App\Http\Controllers\VoteQuestionController::class);
 	Route::post('/answers/{answer}/vote', App\Http\Controllers\VoteAnswerController::class);
+
+	Route::post('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'store']);
+	Route::delete('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'destroy']);
+	
+	// One action route => this controller has an __invoke method
+	Route::post('/answers/{answer}/accept', App\Http\Controllers\AcceptAnswerController::class);
 });
 
 Route::get('/questions', [ App\Http\Controllers\Api\QuestionsController::class, 'index']);
