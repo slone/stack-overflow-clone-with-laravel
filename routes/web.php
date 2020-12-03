@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
+Route::view('/{any}', 'spa')->where('any', '.*');
+/*
 Route::get('/', [App\Http\Controllers\QuestionsController::class, 'index']);
 
 Auth::routes();
@@ -36,3 +38,4 @@ Route::post('/answers/{answer}/accept', App\Http\Controllers\AcceptAnswerControl
 
 Route::post('/questions/{question}/vote', App\Http\Controllers\VoteQuestionController::class);
 Route::post('/answers/{answer}/vote', App\Http\Controllers\VoteAnswerController::class);
+*/

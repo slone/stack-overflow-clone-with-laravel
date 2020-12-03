@@ -15,12 +15,12 @@ class LoginController extends Controller
 	 * @return Response
 	 */
 	public function store(Request $request) {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string'
-        ]);
+		$request->validate([
+			'username' => 'required|string',
+			'password' => 'required|string'
+		]);
 
-        $request->request->add([
+		$request->request->add([
 			'grant_type' => 'password',
 			'client_id' => 4, 
 			'client_secret' => 'eVTjWLbHadYDXvFi4mQAesjpNlzMblbgVDnFUMue',
@@ -32,16 +32,16 @@ class LoginController extends Controller
 		$response = Route::dispatch($requestToken);
 
 		return $response;
-    }
+	}
 
-    /**
-     * Revoke session token to termine user's session
-     * 
-     * @return Response
-     */
-    public function destroy(Request $request) {
-        $request->user()->token()->revoke();
+	/**
+	 * Revoke session token to termine user's session
+	 * 
+	 * @return Response
+	 */
+	public function destroy(Request $request) {
+		$request->user()->token()->revoke();
 
-        return response()->noContent();
-    }
+		return response()->noContent();
+	}
 }
