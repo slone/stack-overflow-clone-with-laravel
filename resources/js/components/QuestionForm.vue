@@ -25,6 +25,12 @@
 <script>
 import EventBus from '../event-bus';
 export default {
+	props: {
+		isEdit: {
+			type: Boolean,
+			default: false
+		}
+	},
 	data(){
 		return {
 			body: null,
@@ -41,7 +47,7 @@ export default {
 	},
 	computed:{
 		buttonText() {
-			return "Ask your question";
+			return this.isEdit ? "Apply modifications to your question" : "Ask your question";
 		}
 	},
 	methods:{
@@ -59,6 +65,17 @@ export default {
 		},
 		unsetErrors() {
 			this.errors = JSON.parse(JSON.stringify(this.blankErrors));
+		},
+		fetchQuestion() {
+			axios
+			.get(`/questions/${this.$route.params.id}`)
+			.then( ({data}) => {
+				this.title = data.title;
+				this.body = data.body;
+			})
+			.catch( ({response})=> {
+				this.$toast.error(response.data.message, 'Error');
+			});
 		}
 	},
 	mounted() {
@@ -69,6 +86,10 @@ export default {
 				this.setErrors(field, error);
 			}
 		});
+
+		if (this.isEdit) {
+			this.fetchQuestion();
+		}
 	},
 }
 </script>

@@ -1,8 +1,9 @@
-import QuestionsPage from '../pages/QuestionsPage';
-import QuestionPage from '../pages/QuestionPage';
-import MyPostsPage from '../pages/MyPostsPage';
-import CreateQuestionPage from '../pages/CreateQuestionPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import QuestionsPage 		from '../pages/QuestionsPage';
+import QuestionPage 		from '../pages/QuestionPage';
+import CreateQuestionPage 	from '../pages/CreateQuestionPage';
+import EditQuestionPage 	from '../pages/EditQuestionPage';
+import MyPostsPage 			from '../pages/MyPostsPage';
+import NotFoundPage 		from '../pages/NotFoundPage';
 
 const routes = [
 	{
@@ -19,6 +20,14 @@ const routes = [
 		path: '/questions/create',
 		component: CreateQuestionPage,
 		name: 'questions.create',
+		meta: {
+			requireAuth: true,
+		}
+	},
+	{
+		path: '/questions/:id/edit',
+		component: EditQuestionPage,
+		name: 'questions.update',
 		meta: {
 			requireAuth: true,
 		}

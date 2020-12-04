@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Http\Requests\AskQuestionRequest;
+use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 
 class QuestionsController extends Controller
 {
@@ -44,10 +45,10 @@ class QuestionsController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  App\Http\Requests\AskQuestionReques  $request
+	 * @param  App\Http\Requests\CreateQuestionRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(AskQuestionRequest $request)
+	public function store(CreateQuestionRequest $request)
 	{
 		$request->user()->questions()->create($request->only('title', 'body'));
 		return redirect()->route('questions.index')->with('success', __('Your question has been submitted'));
@@ -67,7 +68,6 @@ class QuestionsController extends Controller
 		// équivalent de :
 		// $question->views = $question->views+1;
 		// $question->save();
-
 		return view('questions.show', compact('question'));
 	}
 
@@ -86,12 +86,12 @@ class QuestionsController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  App\Http\Requests\AskQuestionRequest  $request
+	 * @param  App\Http\Requests\UpdateQuestionRequest  $request
 	 * @param  \App\Models\Question  $question
 	 * 
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(AskQuestionRequest $request, Question $question)
+	public function update(UpdateQuestionRequest $request, Question $question)
 	{
 		$this->authorize('update', $question);
 		if ($request->body != $question->body || $request->title != $question->title) {

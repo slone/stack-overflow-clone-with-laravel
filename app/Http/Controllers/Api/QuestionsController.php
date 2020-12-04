@@ -6,7 +6,8 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\QuestionResource;
-use App\Http\Requests\SaveQuestionRequest;
+use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 
 
 class QuestionsController extends Controller
@@ -25,11 +26,11 @@ class QuestionsController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  App\Http\Requests\SaveQuestionRequest  $request
+	 * @param  App\Http\Requests\CreateQuestionRequest  $request
 	 * 
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(SaveQuestionRequest $request)
+	public function store(CreateQuestionRequest $request)
 	{
 		$question = $request->user()->questions()->create($request->only('title', 'body'));
 
@@ -57,12 +58,12 @@ class QuestionsController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  App\Http\Requests\SaveQuestionRequest  $request
+	 * @param  App\Http\Requests\UpdateQuestionRequest  $request
 	 * @param  \App\Models\Question  					$question
 	 * 
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(SaveQuestionRequest $request, Question $question)
+	public function update(UpdateQuestionRequest $request, Question $question)
 	{
 		$this->authorize('update', $question);
 
