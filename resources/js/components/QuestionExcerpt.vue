@@ -17,9 +17,7 @@
 			<div class="ml-auto">
 				<router-link v-if="authorize('modify', question)" :to="{ name: 'questions.update', params: { id: question.id } }" class="btn btn-sm btn-outline-info" exact>Edit</router-link>
 
-				<form v-if="authorize('deleteQuestion', question)" method="post" action="" class="form-delete">
-					<button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you wish to delete this question?')">Delete	</button>
-				</form>
+				<button v-if="authorize('deleteQuestion', question)" type="submit" class="btn btn-sm btn-outline-danger" @click="destroy">Delete	</button>
 
 			</div>
 		</div>
@@ -32,12 +30,24 @@
 </div>	
 </template>
 <script>
+import destroy from '../mixins/destroy';
 export default {
 	props: ['question'],
+	mixins: [destroy],
 	methods: {
 		str_plural(str, count) {
 			return str + (count > 1 ? 's' : '');
-		}
+		},
+		delete() {
+			axios.delete("/questions/" + this.question.id)
+			.then( ({data}) => {
+				this.$toast.success(data.message, "Success", { timeout: 5000 });
+				this.$emit('deleted');
+			})
+			.catch( ({response}) => {
+				this.$toast.error(response.data.message, 'Error');
+			});
+		},
 	},
 	computed: {
 		questionStatusClasses() {
