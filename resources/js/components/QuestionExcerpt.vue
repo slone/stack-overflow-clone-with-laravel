@@ -41,11 +41,7 @@ export default {
 	},
 	computed: {
 		questionStatusClasses() {
-			console.log(this.question.status);
-			return [
-				'status',
-				this.question.status
-			]	
+			return [ 'status', this.question.status	];	
 		}
 	}
 }

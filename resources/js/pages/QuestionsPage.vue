@@ -11,16 +11,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-body">
-										
-					<div v-if="questions.length">
-						<question-excerpt v-for="question in questions" :question="question" :key="question.id"></question-excerpt>
-					</div>
-
-					<div v-else class="alert alert-warning">Sorry, there are no questions available </div>
-
-				</div>
-
+				<questions></questions> 
 			</div>
 			
 
@@ -29,27 +20,8 @@
 </div>
 </template>
 <script>
-import QuestionExcerpt from '../components/QuestionExcerpt';
+import Questions from '../components/Questions';
 export default {
-	components: { QuestionExcerpt },
-	data() {
-		return {
-			questions: []
-		}
-	},
-	mounted() {
-		this.fetchQuestions();
-	},
-	methods: {
-		fetchQuestions() {
-			axios.get('/questions')
-				.then(({ data } ) => {
-					this.questions = data.data
-				})
-				.catch(({ response }) => {
-					this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
-				});
-		}
-	}
+	components: { Questions },
 }
 </script>
