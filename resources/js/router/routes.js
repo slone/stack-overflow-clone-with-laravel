@@ -2,7 +2,6 @@ import QuestionsPage from '../pages/QuestionsPage';
 import QuestionPage from '../pages/QuestionPage';
 import MyPostsPage from '../pages/MyPostsPage';
 import NotFoundPage from '../pages/NotFoundPage';
-import router from '.';
 
 const routes = [
 	{

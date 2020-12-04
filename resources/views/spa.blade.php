@@ -69,11 +69,14 @@
 	</div>
 	<!-- Scripts -->
 <script type="text/javascript">
-window.Auth = {!! json_encode([
+window.Auth = @json([
 	'signedIn' => Auth::check(),
 	'user' => Auth::user(),
-	'url' => route('login')
-]) !!}
+]);
+window.Urls = @json([
+	'api' => url('/api'),
+	'login' => route('login')
+]);
 </script>
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 </body>
