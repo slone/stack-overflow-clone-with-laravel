@@ -33,15 +33,16 @@ export default {
 	},
 	methods: {
 		fetchQuestions() {
-			axios.get('/questions', { params: this.$route.query })
-				.then( ( {data} ) => {
-					this.questions = data.data;
-					this.meta = data.meta;
-					this.links = data.links;
-				})
-				.catch(({ response }) => {
-					this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
-				});
+			axios
+			.get('/questions', { params: this.$route.query })
+			.then( ( {data} ) => {
+				this.questions = data.data;
+				this.meta = data.meta;
+				this.links = data.links;
+			})
+			.catch(({ response }) => {
+				this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
+			});
 		}
 	}
 }
