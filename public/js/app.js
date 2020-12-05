@@ -12704,6 +12704,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_destroy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/destroy */ "./resources/js/mixins/destroy.js");
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../event-bus */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -12735,6 +12736,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['question'],
@@ -12746,6 +12748,7 @@ __webpack_require__.r(__webpack_exports__);
     "delete": function _delete() {
       var _this = this;
 
+      this.$root.disableAxiosInterceptors();
       axios["delete"]("/questions/" + this.question.id).then(function (_ref) {
         var data = _ref.data;
 
@@ -12753,7 +12756,9 @@ __webpack_require__.r(__webpack_exports__);
           timeout: 5000
         });
 
-        _this.$emit('deleted');
+        _event_bus__WEBPACK_IMPORTED_MODULE_1__["default"].$emit('deleted', _this.question.id);
+
+        _this.$root.enableAxiosInterceptors();
       })["catch"](function (_ref2) {
         var response = _ref2.response;
 
@@ -12905,6 +12910,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_QuestionExcerpt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/QuestionExcerpt */ "./resources/js/components/QuestionExcerpt.vue");
 /* harmony import */ var _components_Pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Pagination */ "./resources/js/components/Pagination.vue");
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../event-bus */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -12925,6 +12931,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12944,6 +12951,17 @@ __webpack_require__.r(__webpack_exports__);
     '$route': 'fetchQuestions'
   },
   mounted: function mounted() {
+    var _this = this;
+
+    _event_bus__WEBPACK_IMPORTED_MODULE_2__["default"].$on('deleted', function (id) {
+      console.log("deleted ", id);
+
+      var index = _this.questions.findIndex(function (question) {
+        return id === question.id;
+      });
+
+      _this.remove(index);
+    });
     this.fetchQuestions();
   },
   methods: {
@@ -12952,20 +12970,20 @@ __webpack_require__.r(__webpack_exports__);
       this.count--;
     },
     fetchQuestions: function fetchQuestions() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/questions', {
         params: this.$route.query
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.questions = data.data;
-        _this.meta = data.meta;
-        _this.links = data.links;
-        _this.count = data.meta.total;
+        _this2.questions = data.data;
+        _this2.meta = data.meta;
+        _this2.links = data.links;
+        _this2.count = data.meta.total;
       })["catch"](function (_ref2) {
         var response = _ref2.response;
 
-        _this.$toast.error(response.data.message, 'Error', {
+        _this2.$toast.error(response.data.message, 'Error', {
           timeout: 4000
         });
       });
@@ -50810,15 +50828,10 @@ var render = function() {
                       _vm._v(_vm._s(_vm.count) + " found")
                     ]),
                     _vm._v(" "),
-                    _vm._l(_vm.questions, function(question, index) {
+                    _vm._l(_vm.questions, function(question) {
                       return _c("question-excerpt", {
                         key: question.id,
-                        attrs: { question: question },
-                        on: {
-                          deleted: function($event) {
-                            return _vm.remove(index)
-                          }
-                        }
+                        attrs: { question: question }
                       })
                     })
                   ],
@@ -66699,28 +66712,39 @@ Vue.component('LoadingSpinner', _components_LoadingSpinner__WEBPACK_IMPORTED_MOD
 var app = new Vue({
   el: '#app',
   data: {
-    isLoading: true
+    isLoading: true,
+    interceptorRequest: null,
+    interceptorResponse: null
   },
   router: _router__WEBPACK_IMPORTED_MODULE_5__["default"],
+  methods: {
+    enableAxiosInterceptors: function enableAxiosInterceptors() {
+      var _this = this;
+
+      // Request Interceptors
+      this.interceptorRequest = axios.interceptors.request.use(function (config) {
+        _this.isLoading = true;
+        return config;
+      }, function (error) {
+        _this.isLoading = false;
+        return Promise.reject(error);
+      }); // Response Interceptors
+
+      this.interceptorResponse = axios.interceptors.response.use(function (response) {
+        _this.isLoading = false;
+        return response;
+      }, function (error) {
+        _this.isLoading = false;
+        return Promise.reject(error);
+      });
+    },
+    disableAxiosInterceptors: function disableAxiosInterceptors() {
+      axios.interceptors.request.eject(this.interceptorRequest);
+      axios.interceptors.response.eject(this.interceptorResponse);
+    }
+  },
   created: function created() {
-    var _this = this;
-
-    // Request Interceptors
-    axios.interceptors.request.use(function (config) {
-      _this.isLoading = true;
-      return config;
-    }, function (error) {
-      _this.isLoading = false;
-      return Promise.reject(error);
-    }); // Response Interceptors
-
-    axios.interceptors.response.use(function (response) {
-      _this.isLoading = false;
-      return response;
-    }, function (error) {
-      _this.isLoading = false;
-      return Promise.reject(error);
-    });
+    this.enableAxiosInterceptors();
   }
 });
 

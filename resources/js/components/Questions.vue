@@ -5,7 +5,7 @@
 		<div v-else-if="questions.length" class="list">
 			<div>
 				<div class="count">{{  count }} found</div>
-				<question-excerpt @deleted="remove(index)" v-for="(question, index) in questions" :question="question" :key="question.id"></question-excerpt>
+				<question-excerpt v-for="question in questions" :question="question" :key="question.id"></question-excerpt>
 			</div>
 
 			<div v-if="questions.length && meta.last_page > 1" class="card-footer">
@@ -21,6 +21,7 @@
 <script>
 import QuestionExcerpt from '../components/QuestionExcerpt';
 import Pagination from '../components/Pagination';
+import EventBus from '../event-bus';
 
 export default {
 	components: { QuestionExcerpt, Pagination },
@@ -36,6 +37,11 @@ export default {
 		'$route' : 'fetchQuestions'
 	},
 	mounted() {
+		EventBus.$on('deleted', (id) =>  {
+			console.log("deleted ", id);
+			let index = this.questions.findIndex(question => id === question.id);
+			this.remove(index);
+		});
 		this.fetchQuestions();
 	},
 	methods: {

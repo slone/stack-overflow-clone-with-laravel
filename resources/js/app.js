@@ -22,27 +22,39 @@ const app = new Vue({
 	el: '#app',
 	data: {
 		isLoading: true,
+		interceptorRequest: null,
+		interceptorResponse: null,
 	},
 	router,
-	created() {
-		// Request Interceptors
-		axios.interceptors.request.use((config) => {
-			this.isLoading = true
-			return config;
-		},
-		(error) => {
-			this.isLoading = false;
-			return Promise.reject(error);
-		});
 
-		// Response Interceptors
-		axios.interceptors.response.use((response) => {
-			this.isLoading = false;
-			return response;
+	methods: {
+		enableAxiosInterceptors() {
+			// Request Interceptors
+			this.interceptorRequest = axios.interceptors.request.use((config) => {
+				this.isLoading = true
+				return config;
+			},
+			(error) => {
+				this.isLoading = false;
+				return Promise.reject(error);
+			});
+
+			// Response Interceptors
+			this.interceptorResponse = axios.interceptors.response.use((response) => {
+				this.isLoading = false;
+				return response;
+			},
+			(error) => {
+				this.isLoading = false;
+				return Promise.reject(error);
+			})
 		},
-		(error) => {
-			this.isLoading = false;
-			return Promise.reject(error);
-		})
+        disableAxiosInterceptors() {
+            axios.interceptors.request.eject(this.interceptorRequest);
+            axios.interceptors.response.eject(this.interceptorResponse);
+        }
+ 	},
+	created() {
+		this.enableAxiosInterceptors();
 	}
 });

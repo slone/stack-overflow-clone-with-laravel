@@ -31,6 +31,8 @@
 </template>
 <script>
 import destroy from '../mixins/destroy';
+import EventBus from '../event-bus';
+
 export default {
 	props: ['question'],
 	mixins: [destroy],
@@ -39,12 +41,14 @@ export default {
 			return str + (count > 1 ? 's' : '');
 		},
 		delete() {
+	    	this.$root.disableAxiosInterceptors();
 			axios.delete("/questions/" + this.question.id)
-			.then( ({data}) => {
+			.then( ({ data }) => {
 				this.$toast.success(data.message, "Success", { timeout: 5000 });
-				this.$emit('deleted');
+				EventBus.$emit('deleted', this.question.id);
+ 			   	this.$root.enableAxiosInterceptors();
 			})
-			.catch( ({response}) => {
+			.catch( ({ response }) => {
 				this.$toast.error(response.data.message, 'Error');
 			});
 		},

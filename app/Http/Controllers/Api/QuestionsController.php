@@ -87,6 +87,7 @@ class QuestionsController extends Controller
 	public function destroy(Question $question)
 	{
 		$this->authorize('delete', $question);
+		if (env('APP_ENV')== 'local')		sleep(1.5);
 		$question->delete();
 
 		return response()->json([
