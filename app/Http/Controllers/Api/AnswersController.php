@@ -11,7 +11,12 @@ use App\Http\Resources\AnswerResource;
 class AnswersController extends Controller
 {
 	public function index(Question $question) {
-		$answers = $question->answers()->with('user')->simplePaginate(3);
+		$answers = $question->answers()->with('user')->where(function($query) {
+			if (request()->has('excludes')) {
+				$query->WhereNotIn('id', request()->query('excludes'));
+			}
+		})->simplePaginate(3);
+		
 		return AnswerResource::collection($answers);
 	}
 

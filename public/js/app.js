@@ -12240,7 +12240,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       questionId: this.question.id,
       count: this.question.answers_count,
       nextUrl: null,
-      answers: []
+      answers: [],
+      excludeAnswers: []
     };
   },
   created: function created() {
@@ -12249,11 +12250,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   computed: {
     title: function title() {
       return this.count + " " + (this.count > 1 ? 'answers' : 'answer');
+    },
+    theNextUrl: function theNextUrl() {
+      if (this.nextUrl && this.excludeAnswers.length) {
+        return this.nextUrl + this.excludeAnswers.map(function (a) {
+          return '&excludes[]=' + a.id;
+        }).join('');
+      }
+
+      return this.nextUrl;
     }
   },
   methods: {
     add: function add(answer) {
       this.answers.push(answer);
+      this.excludeAnswers.push(answer);
+      console.log(this.excludeAnswers);
       this.count++;
       _event_bus__WEBPACK_IMPORTED_MODULE_2__["default"].$emit('answers-count-changed', this.count);
     },
@@ -49127,7 +49139,7 @@ var render = function() {
                         })
                       }),
                       _vm._v(" "),
-                      _vm.nextUrl
+                      _vm.theNextUrl
                         ? _c("div", { staticClass: "text-center mt-3" }, [
                             _c(
                               "button",
@@ -49136,7 +49148,7 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
-                                    return _vm.fetch(_vm.nextUrl)
+                                    return _vm.fetch(_vm.theNextUrl)
                                   }
                                 }
                               },
