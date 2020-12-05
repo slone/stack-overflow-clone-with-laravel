@@ -1,6 +1,6 @@
 <template>
 	<div class="row justify-content-center question-wrapper">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<div class="card">
 
 				<form class="card-body" v-if="editing" @submit.prevent="update">
@@ -67,6 +67,7 @@
 import UserInfo from './UserInfo';
 import VoteButtons from './VoteButtons';
 import modification from '../mixins/modification';
+import EventBus from '../event-bus';
 
 export default {
 	props: ['question'],
@@ -109,11 +110,12 @@ export default {
 		delete() {
 			axios.delete(this.endpoint)
 			.then( ({ data }) => {
+				let that = this;
 				let msg = data.message + "<br>You will be redirected to the question list in a few seconds.";
 				this.$toast.success(msg, 'Success', { 
-					timeout: 7000,				
+					timeout: 4000,				
 					onClosed() {
-						window.location.href = "/questions";
+						that.$router.push({ name: 'questions' });
 					} 
 				});
 			})
@@ -121,6 +123,11 @@ export default {
 				this.$toast.error(response.data.message, 'Error',  { timeout: 4000 });
 			});
 		},
+	},
+	mounted() {
+		EventBus.$on('answers-count-changed', (count) => {
+			this.question.answers_count = count;
+		});
 	}
 }
 </script>

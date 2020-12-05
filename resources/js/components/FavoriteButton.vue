@@ -1,6 +1,6 @@
 <template>
 	<a title="Click to favorite the question - click again to undo" :class="classes" @click.prevent="toggleFavorite">
-		<i class="fas fa-star fa-2x"></i>
+		<font-awesome-icon :icon="['fas', 'star']" size="2x" />
 		<span class="favorites-count">{{ count }}</span>
 	</a>
 </template>
@@ -30,7 +30,7 @@ export default {
 		toggleFavorite() {
 			if (! this.signedIn) 
 			 	this.$toast.warning("You need to be logged in to be able to add a question to your favorite", "Warning", { 
-					 timeout: 3000, position: "bottomLeft" 
+					 timeout: 5000, position: "bottomLeft" 
 				});
 			else 
 				this.isFavorited ? this.destroyFavorite() : this.createFavorite();

@@ -1,7 +1,7 @@
 <template>
 <div>
 	<div v-if="count" v-cloak class="row mt-4 justify-content-center answers-wrapper">
-		<div class="col-md-8">
+		<div class="col-md-10">
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title">
@@ -27,6 +27,7 @@
 <script>
 import Answer from './Answer';
 import NewAnswer from './NewAnswer';
+import EventBus from '../event-bus';
 
 export default {
 
@@ -52,12 +53,13 @@ export default {
 		add(answer) {
 			this.answers.push(answer);
 			this.count++;
+			EventBus.$emit('answers-count-changed', this.count);
 		},
 		fetch(endpoint) {
 			axios.get(endpoint)
 			.then( ({data}) => {
 				this.answers.push(...data.data);
-				this.nextUrl = data.next_page_url;
+				this.nextUrl = data.links.next;
 			})
 			.catch( err => {
 				console.log(err);
@@ -66,6 +68,7 @@ export default {
 		removeAnswer(index) {
 			this.answers.splice(index, 1);
 			this.count--;
+			EventBus.$emit('answers-count-changed', this.count);
 		}
 	}
 

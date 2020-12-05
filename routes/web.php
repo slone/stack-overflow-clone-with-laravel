@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 Route::view('/{any}', 'spa')->where('any', '.*');
-/*
+
 Route::get('/', [App\Http\Controllers\QuestionsController::class, 'index']);
 
 Auth::routes();
@@ -22,12 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('questions', App\Http\Controllers\QuestionsController::class)->except('show');
-
-// Route::post('/questions/{question}/answers', App\Http\Controllers\AnswersController::class)->name('answers.store');
-Route::resource('questions.answers',  App\Http\Controllers\AnswersController::class)->except(['create', 'show']);
-// or ->only(['store', 'edit', 'update', 'destroy']);
-
-Route::get('/questions/{slug}', 'App\Http\Controllers\QuestionsController@show')->name('questions.show');
 
 
 Route::post('/questions/{question}/favorites', [App\Http\Controllers\FavoritesController::class, 'store'])->name('questions.favorite');
@@ -38,4 +32,8 @@ Route::post('/answers/{answer}/accept', App\Http\Controllers\AcceptAnswerControl
 
 Route::post('/questions/{question}/vote', App\Http\Controllers\VoteQuestionController::class);
 Route::post('/answers/{answer}/vote', App\Http\Controllers\VoteAnswerController::class);
-*/
+// Route::post('/questions/{question}/answers', App\Http\Controllers\AnswersController::class)->name('answers.store');
+Route::resource('questions.answers',  App\Http\Controllers\AnswersController::class)->except(['create', 'show']);
+// or ->only(['store', 'edit', 'update', 'destroy']);
+
+Route::get('/questions/{slug}', 'App\Http\Controllers\QuestionsController@show')->name('questions.show');

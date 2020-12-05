@@ -15,14 +15,15 @@ class AnswerResource extends JsonResource
 	public function toArray($request)
 	{
 		return [
-			'id' 			=> $this->id,
-			'votes_count' 	=> $this->votes_count,
-			'is_best' 		=> $this->is_best,
-			'body' 			=> $this->body,
-			'body_html'		=> $this->body_html,
-			'question_id' 	=> $this->question_id,
-			'created_date' 	=> $this->created_date,
-			'user' 			=> new UserResource($this->user),
+			'id' 				=> $this->id,
+			'votes_count' 		=> $this->votes_count,
+			'is_best' 			=> $this->is_best,
+			'body' 				=> $this->body,
+			'body_html'			=> $this->body_html,
+			'question_id' 		=> $this->question_id,
+			'created_date' 		=> $this->created_date,
+			'user' 				=> new UserResource($this->user),
+			'question_user_id' 	=> $this->question->user_id,
 		];
 	}
 }

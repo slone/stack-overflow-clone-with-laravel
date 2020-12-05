@@ -1,9 +1,15 @@
 <template>
 <div class="d-flex flex-column vote-controls">
 
-	<a @click.prevent="voteUp()" 		:title="title('up')" 	class="vote-up" 	:class="voteClasses"><i class="fas fa-caret-up fa-2x"></i></a>
+	<a @click.prevent="voteUp()" 		:title="title('up')" 	class="vote-up" 	:class="voteClasses">
+		<font-awesome-icon :icon="['fas', 'caret-up']" size="2x" />
+	</a>
+	
 	<span class="votes-count">{{ count }}</span>
-	<a @click.prevent="voteDown()"  	:title="title('down')" 	class="vote-down" 	:class="voteClasses"><i class="fas fa-caret-down fa-2x"></i></a>
+	
+	<a @click.prevent="voteDown()"  	:title="title('down')" 	class="vote-down" 	:class="voteClasses">
+		<font-awesome-icon :icon="['fas', 'caret-down']" size="2x" />
+	</a>
 
 	<favorite-button 	v-if="name==='question'" 	:question="model"></favorite-button>
 	<accept-button 		v-if="name==='answer'" 		:answer="model"></accept-button>	

@@ -43,7 +43,8 @@ const routes = [
 	{
 		path: '/questions/:slug',
 		component: QuestionPage,
-		name: 'questions.show'
+		name: 'questions.show',
+		props: true,
 	},
 	{
 		path: '*',
