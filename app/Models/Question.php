@@ -53,7 +53,8 @@ class Question extends Model
 	}
 
 	public function isFavorited() {
-		return $this->favorites()->where('user_id', auth()->id())->count() > 0;
+		$loggedInUserId = auth('api')->id();
+		return $this->favorites()->where('user_id', $loggedInUserId)->count() > 0;
 		// $this->favorites() returns a query
 		// $this->favorites returns a collection
 	}

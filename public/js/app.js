@@ -49499,7 +49499,21 @@ var render = function() {
                   _c("div", { staticClass: "d-flex align-items-center" }, [
                     _c("h1", [_vm._v(_vm._s(_vm.title))]),
                     _vm._v(" "),
-                    _vm._m(0)
+                    _c(
+                      "div",
+                      { staticClass: "ml-auto" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-outline-secondary",
+                            attrs: { to: { name: "questions" }, exact: "" }
+                          },
+                          [_vm._v("Back to questions")]
+                        )
+                      ],
+                      1
+                    )
                   ])
                 ]),
                 _vm._v(" "),
@@ -49584,23 +49598,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "ml-auto" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-outline-secondary",
-          attrs: { href: "/questions" }
-        },
-        [_vm._v("Back to questions")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
