@@ -64,20 +64,22 @@
 		</nav>
 
 		<main class="py-4">
-			<router-view></router-view>
+			<transition name="fade" mode="out-in">
+				<router-view></router-view>
+			</transition>
 		</main>
 	</div>
 	<!-- Scripts -->
-<script type="text/javascript">
-window.Auth = @json([
-	'signedIn' => Auth::check(),
-	'user' => Auth::user(),
-]);
-window.Urls = @json([
-	'api' => url('/api'),
-	'login' => route('login')
-]);
-</script>
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+	<script type="text/javascript">
+		window.Auth = @json([
+			'signedIn' => Auth::check(),
+			'user' => Auth::user(),
+		]);
+		window.Urls = @json([
+			'api' => url('/api'),
+			'login' => route('login')
+		]);
+		</script>
+	<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

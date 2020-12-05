@@ -15,10 +15,10 @@
 // @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
 // custom styles
-@import '_modules/question-counters';
-@import '_modules/vote-controls';
+@import '_modules/_question-counters';
+@import '_modules/_vote-controls';
 @import '_modules/_post';
-
+@import '_modules/_app-transitions';
 form.form-delete {
 	display: inline;
 }

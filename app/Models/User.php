@@ -67,7 +67,7 @@ class User extends Authenticatable
 	 */
 	public function posts() {
 		$type = request()->get('type');
-		dd($type);
+
 		if ($type === 'questions') {
 			$posts = $this->questions()->get();
 		} else {
@@ -88,7 +88,7 @@ class User extends Authenticatable
 
 			if ($post instanceof Answer) {
 				$item['type'] = 'A';
-				$item['title'] = 'answer to '. $post->question->title;
+				$item['title'] = $post->question->title;
 				$item['accepted'] = $post->question->best_answer_id === $post->id ? true : false;
 			}
 			elseif ($post instanceof Question) {

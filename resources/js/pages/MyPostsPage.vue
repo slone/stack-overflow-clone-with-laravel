@@ -17,14 +17,20 @@
 					</ul>
 				</div>
 				<div class="card-body">
-					<ul v-if="posts.length" class="list-group list-group-flush">
+					<transition name="fade" mode="out-in">
+					<loading-spinner v-if="$root.isLoading"></loading-spinner>
+
+					<ul v-else-if="posts.length" class="list-group list-group-flush">
 						<li class="list-group-item" v-for="(post, index) in posts" :key="index">
 							<div class="row">
 								<div class="col">
 									<span class="post-badge" :class="{ 'accepted' : post.accepted }">{{ post.type }}</span>
 									<span class="ml-4 votes-count" :class="{ 'accepted' : post.accepted }">{{ post.votes_count }}</span>
 								</div>
-								<div class="col-md-9 text-left">{{ post.title }}</div> 
+								<div class="col-md-9 text-left">
+									<em v-if="post.type === 'A'">Answer to </em>
+									{{ post.title }}
+								</div>
 								<div class="col text-right">{{ post.created_at }}</div>
 							</div>
 						</li>
@@ -35,6 +41,7 @@
 							<router-link :to="{ name: 'questions.create' }">Ask Question</router-link>
 						</p>
 					</div>
+					</transition>
 				</div>
 			</div>
 		</div>

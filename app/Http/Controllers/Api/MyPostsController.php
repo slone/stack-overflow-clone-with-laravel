@@ -15,8 +15,10 @@ class MyPostsController extends Controller
 	 */
 	public function __invoke(Request $request)
 	{
+		if (env('APP_ENV')== 'local')	sleep(1.5);
 		return response()->json([
-			'data' => $request->user()->posts()
+			'data' => auth('api')->user()->posts()
+//			'data' => $request->user()->posts()
 		]);
 	}
 }

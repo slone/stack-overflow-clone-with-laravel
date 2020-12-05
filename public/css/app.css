@@ -10995,6 +10995,20 @@ a.text-dark:focus {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+[v-cloak] {
+  display: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave {
+  opacity: 0;
+}
+
 form.form-delete {
   display: inline;
 }

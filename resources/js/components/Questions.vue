@@ -1,14 +1,20 @@
 <template>
 	<div class="card-body">
-		<div v-if="questions.length">
-			<div class="count">{{  count }} found</div>
-			<question-excerpt @deleted="remove(index)" v-for="(question, index) in questions" :question="question" :key="question.id"></question-excerpt>
-		</div>
+		<transition name="fade" mode="out-in">
+		<loading-spinner v-if="$root.isLoading"></loading-spinner>
+		<div v-else-if="questions.length" class="list">
+			<div>
+				<div class="count">{{  count }} found</div>
+				<question-excerpt @deleted="remove(index)" v-for="(question, index) in questions" :question="question" :key="question.id"></question-excerpt>
+			</div>
 
-		<div v-else class="alert alert-warning">Sorry, there are no questions available </div>
-		<div v-if="questions.length && meta.last_page > 1" class="card-footer">
-			<pagination :meta="meta" :links="links"></pagination>
+			<div v-if="questions.length && meta.last_page > 1" class="card-footer">
+				<pagination :meta="meta" :links="links"></pagination>
+			</div>
 		</div>
+		<div v-else class="alert alert-warning">Sorry, there are no questions available </div>
+
+		</transition>
 	</div>
 	
 </template>

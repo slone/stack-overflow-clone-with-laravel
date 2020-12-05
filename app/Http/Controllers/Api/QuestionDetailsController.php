@@ -28,6 +28,7 @@ class QuestionDetailsController extends Controller
 	// }
 	public function __invoke($slug)
 	{
+		if (env('APP_ENV')== 'local')		sleep(1.5);
 		$question = Question::where('slug', $slug)->firstOrFail();
 		$question->increment('views');
 		return new QuestionDetailsResource($question);

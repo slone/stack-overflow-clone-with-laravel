@@ -23,6 +23,7 @@ class CreateQuestionRequest extends FormRequest
 	 */
 	public function rules()
 	{
+		if (env('APP_ENV')== 'local')		sleep(10.5);
 		return [
 			'title' 	=> 'required|unique:questions|max:255',
 			'body' 		=> 'required|min:50',

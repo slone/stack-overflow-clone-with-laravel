@@ -17,7 +17,13 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button type="submit" name="submit" id="submit" class="btn btn-outline-primary btn-lg">{{ buttonText }}</button>
+			<button type="submit" name="submit" id="submit" class="btn btn-outline-primary btn-lg" :disabled="$root.isLoading">
+				<div v-if="$root.isLoading" class="submitting-status">
+					{{ buttonTextSubmitting }}
+					<loading-spinner :small="true"></loading-spinner>
+				</div>
+				<div v-else class="waiting-status"> {{ buttonText }}</div>
+			</button>
 		</div>
 	</form>
 	
@@ -26,13 +32,14 @@
 import EventBus from '../event-bus';
 export default {
 	props: {
-		isEdit: {
+		isEdit: { 
 			type: Boolean,
-			default: false
+			default: false,
 		}
 	},
 	data(){
 		return {
+			isBeingSubmitted: false,
 			body: null,
 			title: null,
 			errors: {
@@ -48,7 +55,10 @@ export default {
 	computed:{
 		buttonText() {
 			return this.isEdit ? "Apply modifications to your question" : "Ask your question";
-		}
+		},
+		buttonTextSubmitting() {
+			return this.isEdit ? "Submitting modifications" : "Submitting your question";
+		},
 	},
 	methods:{
 		handleSubmit() {
@@ -79,6 +89,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.$root.isLoading = false; // bad practise, but quick fix. The good way would be using vuex or equivalent
 		EventBus.$on('question-form-error', errors => {
 			this.unsetErrors()
 			for (const field in errors) {
@@ -93,3 +104,12 @@ export default {
 	},
 }
 </script>
+<style scoped lang="scss">
+.submitting-status {
+	display: flex;
+	.spinner-wrapper {
+		margin-left: 1em;
+	}
+}
+
+</style>
