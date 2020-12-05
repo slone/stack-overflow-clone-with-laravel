@@ -34,7 +34,7 @@ Route::middleware(['auth:api'])->group(function() {
 	Route::delete('/questions/{question}/favorites', 	[App\Http\Controllers\Api\FavoritesController::class, 'destroy']);
 
 	// One action route => this controller has an __invoke method
-	Route::get('/my-posts', 					App\Http\Controllers\Api\MyPostController::class);
+	Route::get('/my-posts', 					App\Http\Controllers\Api\MyPostsController::class);
 
 });
 

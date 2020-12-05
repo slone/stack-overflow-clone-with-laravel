@@ -67,13 +67,13 @@ class User extends Authenticatable
 	 */
 	public function posts() {
 		$type = request()->get('type');
+		dd($type);
 		if ($type === 'questions') {
 			$posts = $this->questions()->get();
 		} else {
 			$posts = $this->answers()->with('question')->get();
 			if ($type !== 'answers') {
 				$posts2 = $this->questions()->get();
-
 				$posts = $posts->merge($posts2);
 			}
 		}
